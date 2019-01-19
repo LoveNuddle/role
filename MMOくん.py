@@ -2,7 +2,7 @@ import re
 import sys
 import random
 import asyncio
-
+import os
 
 from datetime import datetime
 from itertools import cycle
@@ -1441,4 +1441,4 @@ async def on_message(message: discord.Message):
     # -------------------------------------------------------------------------------------------------------------------
 
 client.loop.create_task(change_status())
-client.run("NTI5MTQ5NTMxODAwMDc2MzE5.Dw5U9A.NaKQqHA6jY8BDj-rzDfjQhBnv1U")
+client.run(os.getenv('TOKEN'))
