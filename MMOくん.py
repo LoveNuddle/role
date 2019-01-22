@@ -609,7 +609,7 @@ async def on_member_join(member):
                                     "```ようこそ！\n{}へ！\nこの鯖はMMOくんとTAOくん専門の鯖です！\n今後ともよろしくお願いします！```".format(member.server.name))
     channel = client.get_channel('337860614846283780')
     channels = client.get_channel('528113643330600971')
-    channelss = client.get_channel('535079479576625152')
+    channelss = client.get_channel('537228631097737216')
     channelsss = client.get_channel('535957520666066954')
     up = discord.Color(random.randint(0,0xFFFFFF))
     embed = discord.Embed(
