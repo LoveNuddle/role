@@ -752,6 +752,7 @@ async def on_message(message: discord.Message):
 
     if message.content.startswith(prefix + 'shutdown'):
         if not message.author.id == "304932786286886912":
+            await client.delete_message(message)
             await client.send_message(message.channel,"**これは全権限者しか使用できないコマンドです.**")
             return
         a = await client.send_message(message.channel,"シャットダウンします。少しお待ちください。")
