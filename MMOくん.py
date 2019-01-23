@@ -739,8 +739,8 @@ async def on_message(message: discord.Message):
         if not message.channel.id == "535957520666066954":
             channel = client.get_channel('535957520666066954')
             await client.delete_message(message)
-            await client.send_message(message.chanel,"このコマンドは{}でしか使うことが出来ません".format(channel.mention))
-            return 
+            await client.send_message(message.channel,"このコマンドは{}でしか使うことが出来ません".format(channel.mention))
+            return
         role = discord.utils.get(message.server.roles,name="暇人")
         if role in message.author.roles:
             await client.send_message(message.channel,
