@@ -735,7 +735,12 @@ async def on_message(message: discord.Message):
 
     # ログは勝手に送ってくれるようにする
     # BOTのProfileを表示自分のメイン垢かドロキンさんの垢しか反応しない
-    if message.content.startswith("役職付与"):
+    if message.content.startswith("役職付与") and message.content.endswith("役職付与"):
+        if not message.channel.id == "535957520666066954":
+            channel = client.get_channel('535957520666066954')
+            await client.delete_message(message)
+            await client.send_message(message.chanel,"このコマンドは{}でしか使うことが出来ません".format(channel.mention))
+            return 
         role = discord.utils.get(message.server.roles,name="暇人")
         if role in message.author.roles:
             await client.send_message(message.channel,
