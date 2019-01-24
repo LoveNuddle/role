@@ -598,13 +598,18 @@ async def on_server_join(server):
     )
     server = client.get_server('526274496177635338')
     await client.send_message(server.get_channel('529139075165192192'),embed=embed)
-
+    
 @client.event
 async def on_member_join(member):
     if not member.server.id == "337524390155780107":
         return
     if client.user == member:
         return
+    if int(50 - len(member.server.members) % 50) == int(50) :
+        server = client.get_server('337524390155780107')
+        await client.send_message(server.get_channel('537973804052512779'),"<@304932786286886912> バグイベント～～～～！！")
+    server = client.get_server('337524390155780107')
+    await client.send_message(server.get_channel('537973804052512779'),"MMOくんバグイベント情報!!\n後`『{}』`人がこの鯖に入ったらバグ開始です！\nバグをする期間の目安は一日ぐらいだと思ってください。".format(int(50 - len(member.server.members) % 50)))
     await client.send_message(member,
                                     "```ようこそ！\n{}へ！\nこの鯖はMMOくんとTAOくん専門の鯖です！\n今後ともよろしくお願いします！```".format(member.server.name))
     channel = client.get_channel('337860614846283780')
@@ -674,7 +679,6 @@ async def on_member_join(member):
     await client.add_roles(member,role)
     servers = client.get_server('337524390155780107')
     await client.send_message(servers.get_channel('338173860719362060'),"{}さんに役職を付与しました。".format(member.mention))
-
 
 @client.event
 async def on_member_remove(member):
