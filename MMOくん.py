@@ -717,25 +717,8 @@ async def change_status():
         await asyncio.sleep(30)
 
 #-------------------------------------------------------------------------------------------------------------------
-
 @client.event
 async def on_message(message: discord.Message, target: discord.Member =None):
-    if message.content.startswith('役職一覧'):
-        target = target or message.author
-        role = '\n'.join(f"{role.mention}" for role in reversed(target.roles[1::1]))
-        up = discord.Color(random.randint(0,0xFFFFFF)
-        embed = discord.Embed(
-            title="**{}**に付与されてる役職一覧:".format(message.author),
-            description=role,
-            color=up
-        )
-        embed.set_thumbnail(
-            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(target)
-        )
-        await client.send_message(message.channel,embed=embed)
-
-@client.event
-async def on_message(message: discord.Message):
     if message.content.find("https://discord.gg/") != -1:
         if message.server.id == "337524390155780107":
             if not message.channel.id == "421954703509946368":
@@ -774,6 +757,20 @@ async def on_message(message: discord.Message):
         server = client.get_server('337524390155780107')
         person = discord.Server.get_member(server,memberID)
         await client.send_message(person,"時間だよ")
+    
+    if message.content.startswith('役職一覧'):
+        target = target or message.author
+        role = '\n'.join(f"{role.mention}" for role in reversed(target.roles[1::1]))
+        up = discord.Color(random.randint(0,0xFFFFFF)
+        embed = discord.Embed(
+            title="**{}**に付与されてる役職一覧:".format(message.author),
+            description=role,
+            color=up
+        )
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(target)
+        )
+        await client.send_message(message.channel,embed=embed)
 
     if message.content.startswith(prefix + 'shutdown'):
         if not message.author.id == "304932786286886912":
