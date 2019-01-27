@@ -718,7 +718,7 @@ async def change_status():
 
 #-------------------------------------------------------------------------------------------------------------------
 @client.event
-async def on_message(message: discord.Message, target: discord.Member =None):
+async def on_message(message: discord.Message):
     if message.content.find("https://discord.gg/") != -1:
         if message.server.id == "337524390155780107":
             if not message.channel.id == "421954703509946368":
@@ -758,17 +758,21 @@ async def on_message(message: discord.Message, target: discord.Member =None):
         person = discord.Server.get_member(server,memberID)
         await client.send_message(person,"時間だよ")
     
-    if message.content.startswith('役職一覧'):
-        target = target or message.author
-        role = '\n'.join(f"{role.mention}" for role in reversed(target.roles[1::1]))
-        up = discord.Color(random.randint(0,0xFFFFFF)
+    if message.content.startswith('役職一覧') and message.content.endswith('役職一覧'):
+        role = "\n".join([r.mention for r in message.author.roles if r.mentionable][::-1])
+        up = discord.Color(random.randint(0,0xFFFFFF))
         embed = discord.Embed(
-            title="**{}**に付与されてる役職一覧:".format(message.author),
-            description=role,
+            title="",
+            description="",
             color=up
         )
         embed.set_thumbnail(
-            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(target)
+            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
+        )
+        embed.add_field(
+            name="**{}**に付与されてる役職一覧:".format(message.author),
+            value=role,
+            inline=False
         )
         await client.send_message(message.channel,embed=embed)
 
