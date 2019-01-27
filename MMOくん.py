@@ -881,7 +881,7 @@ async def on_message(message: discord.Message):
         await client.send_message(message.channel,embed=embed)
    
     contents = ["::",";;","!!","m!","/poll"]
-    if any([True for s in contents if s in message.content]):
+    if message.content.startswith(tuple(contents)):
         id = ['338151444731658240','537228631097737216','537228565557673984']
         if message.channel.id in id:
             channel = client.get_channel('424560169188327425')
