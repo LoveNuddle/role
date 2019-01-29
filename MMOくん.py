@@ -836,6 +836,31 @@ async def on_message(message: discord.Message):
         )
         await client.delete_message(message)
         await client.send_message(message.channel,embed=embed)
+    
+        if message.channel.name == "mmo-global-chat":
+        if message.author == client.user:
+            return
+        sayd = message.content
+        embed = discord.Embed(
+            title="発言者:" + message.author.name + "#" + message.author.discriminator,
+            description=sayd.replace("sex","***").replace("fuck","****"),
+            color=discord.Color.dark_grey(),
+            timestamp=message.timestamp
+        )
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
+        )
+        embed.set_footer(
+            text="発言時刻: "
+        )
+        embed.set_author(
+            name=message.server.name,
+            icon_url=message.server.icon_url
+        )
+        await client.delete_message(message)
+        for channel in client.get_all_channels():
+            if channel.name == 'mmo-global-chat':
+                await client.send_message(channel,embed=embed)
 
     if message.content.startswith(prefix + 'profile') and message.content.endswith(prefix + 'profile'):
         if not message.author.id == '304932786286886912':
