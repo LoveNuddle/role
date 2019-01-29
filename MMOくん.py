@@ -837,7 +837,7 @@ async def on_message(message: discord.Message):
         await client.delete_message(message)
         await client.send_message(message.channel,embed=embed)
     
-        if message.channel.name == "mmo-global-chat":
+    if message.channel.name == "mmo-global-chat":
         if message.author == client.user:
             return
         sayd = message.content
