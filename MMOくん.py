@@ -730,16 +730,15 @@ async def change_status():
 @client.event
 async def on_message(message: discord.Message):
     if message.content.find("https://discord.gg/") != -1:
-        if message.channel.name == "mmo-global-chat":
-            return
         if message.server.id == "337524390155780107":
             if not message.channel.id == "421954703509946368":
-                channel = client.get_channel('421954703509946368')
-                await client.delete_message(message)
-                await client.send_message(message.channel,
-                                          "<@{0}>さん\nもし鯖の宣伝をしたいなら{1}でやってください！\n出来れば時間制限無しの宣伝をお願いします！".format(
-                                              message.author.id,channel.mention))
-                return
+                if not message.channel.name == "mmo-global-chat":
+                    channel = client.get_channel('421954703509946368')
+                    await client.delete_message(message)
+                    await client.send_message(message.channel,
+                                              "<@{0}>さん\nもし鯖の宣伝をしたいなら{1}でやってください！\n出来れば時間制限無しの宣伝をお願いします！".format(
+                                                  message.author.id,channel.mention))
+                    return
 
     if message.channel.type == ChannelType.private:
         if not message.author.id == "529149531800076319":
@@ -957,6 +956,24 @@ async def on_message(message: discord.Message):
                     await client.send_message(channel,embed=userembed)
             return
 
+    if message.content.startswith('役職一覧') and message.content.endswith('役職一覧'):
+        role = "\n".join([r.mention for r in message.author.roles if r.mentionable][::-1])
+        up = discord.Color(random.randint(0,0xFFFFFF))
+        embed = discord.Embed(
+            title="",
+            description="",
+            color=up
+        )
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
+        )
+        embed.add_field(
+            name="**{}**に付与されてる役職一覧:".format(message.author),
+            value=role,
+            inline=False
+        )
+        await client.send_message(message.channel,embed=embed)
+        
     if message.content.startswith(prefix + 'profile') and message.content.endswith(prefix + 'profile'):
         if not message.author.id == '304932786286886912':
             if not message.author.id == '247671415715790849':
