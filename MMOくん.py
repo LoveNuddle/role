@@ -894,7 +894,7 @@ async def on_message(message: discord.Message):
             user = message.author
             userjoindate = str(user.joined_at.strftime("%Y/%m/%d %H:%M:%S"))
             usercreatedate = str(user.created_at.strftime("%Y/%m/%d %H:%M:%S"))
-            role = "\n".join([r.mention for r in message.author.roles if r.mentionable][::-1])
+            role = "\n".join([r.name for r in user.roles][::-1])
             nickname = str(user.display_name)
 
             up = discord.Color(random.randint(0,0xFFFFFF))
