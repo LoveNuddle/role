@@ -889,6 +889,60 @@ async def on_message(message: discord.Message):
             for channel in client.get_all_channels():
                 if channel.name == 'mmo-global-chat':
                     await client.send_message(channel,embed=embed)
+        
+        if message.content.startswith("自分の詳細") and message.content.endswith("自分の詳細"):
+            user = message.author
+            userjoindate = str(user.joined_at.strftime("%Y/%m/%d %H:%M:%S"))
+            usercreatedate = str(user.created_at.strftime("%Y/%m/%d %H:%M:%S"))
+            role = ", ".join([r.name for r in user.roles])
+            nickname = str(user.display_name)
+
+            up = discord.Color(random.randint(0,0xFFFFFF))
+
+            userembed = discord.Embed(
+                title=":pencil:ユーザー名:",
+                description="**『" + user.name + "』**",
+                color=up
+            )
+            userembed.set_author(
+                name=user.name + "#" + user.discriminator + "のユーザー情報:"
+            )
+            userembed.add_field(
+                name=":earth_asia:ニックネーム:",
+                value="**" + nickname + "**"
+            )
+            userembed.add_field(
+                name=":bulb:サーバー参加日:",
+                value="**" + userjoindate + "**"
+            )
+            userembed.add_field(
+                name=":bar_chart:アカウント作成日:",
+                value="**" + usercreatedate + "**"
+            )
+            userembed.add_field(
+                name=":hash:ユーザーID:",
+                value="**" + user.id + "**"
+            )
+            userembed.set_thumbnail(
+                url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(user)
+            )
+            userembed.add_field(
+                name=":scroll:ユーザーTAG:",
+
+                value="**#" + user.discriminator + "**"
+            )
+            userembed.add_field(
+                name=":signal_strength:ユーザーの現在のステータス:",
+                value="**" + str(user.status) + "**"
+            )
+            userembed.add_field(
+                name=":diamond_shape_with_a_dot_inside:ユーザーが現在付与されてる役職",
+                value="**" + role + "**"
+            )
+
+            for channel in client.get_all_channels():
+                if channel.name == 'mmo-global-chat':
+                    await client.send_message(channel,embed=userembed)
 
         if message.content.startswith("この鯖の詳細") and message.content.endswith("この鯖の詳細"):
             server = message.server
