@@ -905,7 +905,7 @@ async def on_message(message: discord.Message):
                 color=up
             )
             userembed.set_author(
-                name=user.name + "#" + user.discriminator + "のユーザー情報:"
+                name=user.name + "#" + user.discriminator + "の情報:"
             )
             userembed.add_field(
                 name=":earth_asia:ニックネーム:",
@@ -938,6 +938,9 @@ async def on_message(message: discord.Message):
             userembed.add_field(
                 name=":diamond_shape_with_a_dot_inside:ユーザーが現在付与されてる役職",
                 value="**" + role + "**"
+            )
+            userembed.set_footer(
+                text=message.server.name+"で発言されました。"
             )
 
             for channel in client.get_all_channels():
