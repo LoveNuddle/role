@@ -830,339 +830,186 @@ async def on_message(message: discord.Message):
 
 
 
-    if message.channel.name == "mmo-global-chat":
-        if message.author == client.user:
-            if message.author.bot:
-                return
-        sayd = message.content
-        embed = discord.Embed(
-            title="発言者:" + message.author.name + "#" + message.author.discriminator,
-            description=sayd.replace("sex","***").replace("fuck","****"),
-            color=discord.Color.dark_grey(),
-            timestamp=message.timestamp
-        )
-        embed.set_thumbnail(
-            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
-        )
-        embed.set_footer(
-            text="発言時刻: "
-        )
-        embed.set_author(
-            name=message.server.name,
-            icon_url=message.server.icon_url
-        )
-        await client.delete_message(message)
-        for channel in client.get_all_channels():
-            if channel.name == 'mmo-global-chat':
-                await client.send_message(channel,embed=embed)
-
-
-        if message.content.startswith("チャンネルトピック") and message.content.endswith("チャンネルトピック"):
-
-            embed = discord.Embed(
-
-                title="チャンネルトピック！！",
-
-                description="",
-
-                color=discord.Color(0xFFFFFF)
-
-            )
-
-            embed.add_field(
-
-                name="このチャンネルの説明！",
-
-                value="楽しく会話をしようぜ！\nバグイベントの時は@everyone やらせてもらいます！",
-
-                inline=False
-
-            )
-
-            embed.add_field(
-
-                name="このBOTの招待URL",
-
-                value="[**招待URL**](<https://discordapp.com/oauth2/authorize?client_id=529149531800076319&permissions=8&scope=bot>)",
-
-                inline=True
-
-            )
-
-            embed.add_field(
-
-                name="MMO特訓場の招待コード",
-
-                value="[**招待URL**](<https://discord.gg/aSETXpN>)",
-
-                inline=True
-
-            )
-
-            embed.set_thumbnail(
-
-                url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(client.user)
-
-            )
-
-            embed.set_footer(
-
-                text="このBOTをよろしく！！"
-
-            )
-
-            embed.set_author(
-
-                name=client.user.name,
-
-                icon_url=client.user.avatar_url
-
-            )
-
-            for channel in client.get_all_channels():
-
-                if channel.name == 'mmo-global-chat':
-
-                    await client.send_message(channel,embed=embed)
-
-        
-
-        if message.content.startswith("自分の詳細") and message.content.endswith("自分の詳細"):
-
-            user = message.author
-
-            userjoindate = str(user.joined_at.strftime("%Y/%m/%d %H:%M:%S"))
-
-            usercreatedate = str(user.created_at.strftime("%Y/%m/%d %H:%M:%S"))
-
-            role = ", ".join([r.name for r in user.roles])
-
-            nickname = str(user.display_name)
-
-
-
-            up = discord.Color(random.randint(0,0xFFFFFF))
-
-
-
-            userembed = discord.Embed(
-
-                title=":pencil:ユーザー名:",
-
-                description="**『" + user.name + "』**",
-
-                color=up
-
-            )
-
-            userembed.set_author(
-
-                name=user.name + "#" + user.discriminator + "のユーザー情報:"
-
-            )
-
-            userembed.add_field(
-
-                name=":earth_asia:ニックネーム:",
-
-                value="**" + nickname + "**"
-
-            )
-
-            userembed.add_field(
-
-                name=":bulb:サーバー参加日:",
-
-                value="**" + userjoindate + "**"
-
-            )
-
-            userembed.add_field(
-
-                name=":bar_chart:アカウント作成日:",
-
-                value="**" + usercreatedate + "**"
-
-            )
-
-            userembed.add_field(
-
-                name=":hash:ユーザーID:",
-
-                value="**" + user.id + "**"
-
-            )
-
-            userembed.set_thumbnail(
-
-                url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(user)
-
-            )
-
-            userembed.add_field(
-
-                name=":scroll:ユーザーTAG:",
-
-
-
-                value="**#" + user.discriminator + "**"
-
-            )
-
-            userembed.add_field(
-
-                name=":signal_strength:ユーザーの現在のステータス:",
-
-                value="**" + str(user.status) + "**"
-
-            )
-
-            userembed.add_field(
-
-                name=":diamond_shape_with_a_dot_inside:ユーザーが現在付与されてる役職",
-
-                value="**" + role + "**"
-
-            )
-
-
-
-            for channel in client.get_all_channels():
-
-                if channel.name == 'mmo-global-chat':
-
-                    await client.send_message(channel,embed=userembed)
-
-
-
-        if message.content.startswith("この鯖の詳細") and message.content.endswith("この鯖の詳細"):
-
-            server = message.server
-
-            region = message.server.region
-
-            channelss = len(message.server.channels)
-
-            memberss = len(message.server.members)
-
-            role = str(len(server.roles))
-
-            emoji = str(len(server.emojis))
-
-            owner = server.owner
-
-            tekitou = server.role_hierarchy[0]
-
-            online = 0
-
-            for i in server.members:
-
-                if str(i.status) == 'online' or str(i.status) == 'idle' or str(i.status) == 'dnd':
-
-                    online += 1
-
-            up = discord.Color(random.randint(0,0xFFFFFF))
-
-            userembed = discord.Embed(
-
-                title=server.name + "の情報:",
-
-                color=up
-
-            )
-
-            userembed.set_thumbnail(
-
-                url=server.icon_url
-
-            )
-
-            userembed.add_field(
-
-                name="サーバーID:",
-
-                value=server.id
-
-            )
-
-            userembed.add_field(
-
-                name="サーバーオーナ:",
-
-                value=owner
-
-            )
-
-            userembed.add_field(
-
-                name="サーバーリュージョン:",
-
-                value=region
-
-            )
-
-            userembed.add_field(
-
-                name="メンバー数:",
-
-                value=memberss
-
-            )
-
-            userembed.add_field(
-
-                name="チャンネル数:",
-
-                value=channelss
-
-            )
-
-            userembed.add_field(
-
-                name="役職数:",
-
-                value=role
-
-            )
-
-            userembed.add_field(
-
-                name="現在オンラインの数:",
-
-                value=online
-
-            )
-
-            userembed.add_field(
-
-                name="鯖に追加した絵文字の数:",
-
-                value=emoji
-
-            )
-
-            userembed.add_field(
-
-                name="サーバー最上位役職:",
-
-                value=tekitou
-
-            )
-
-            userembed.set_footer(
-
-                text="サーバー作成日: " + server.created_at.__format__(' %Y/%m/%d %H:%M:%S')
-
-            )
-
-            for channel in client.get_all_channels():
-
-                if channel.name == 'mmo-global-chat':
-
-                    await client.send_message(channel,embed=userembed)
-
-            return
-
+        if message.channel.name == "mmo-global-chat":
+        if not message.author == client.user:
+            if not message.author.bot:
+                sayd = message.content
+                embedeee = discord.Embed(
+                    title="発言者:" + message.author.name + "#" + message.author.discriminator,
+                    description=sayd.replace("sex","***").replace("fuck","****"),
+                    color=discord.Color.dark_grey(),
+                    timestamp=message.timestamp
+                )
+                embedeee.set_thumbnail(
+                    url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
+                )
+                embedeee.set_footer(
+                    text="発言時刻: "
+                )
+                embedeee.set_author(
+                    name=message.server.name,
+                    icon_url=message.server.icon_url
+                )
+                await client.delete_message(message)
+                for channel in client.get_all_channels():
+                    if channel.name == "mmo-global-chat":
+                        await client.send_message(channel,embed=embedeee)
+                        return
+
+                    if message.content.startswith("チャンネルトピック") and message.content.endswith("チャンネルトピック"):
+                        embed = discord.Embed(
+                            title="チャンネルトピック！！",
+                            description="",
+                            color=discord.Color(0xFFFFFF)
+                        )
+                        embed.add_field(
+                            name="このチャンネルの説明！",
+                            value="楽しく会話をしようぜ！\nバグイベントの時は@everyone やらせてもらいます！",
+                            inline=False
+                        )
+                        embed.add_field(
+                            name="このBOTの招待URL",
+                            value="[**招待URL**](<https://discordapp.com/oauth2/authorize?client_id=529149531800076319&permissions=8&scope=bot>)",
+                            inline=True
+                        )
+                        embed.add_field(
+                            name="MMO特訓場の招待コード",
+                            value="[**招待URL**](<https://discord.gg/aSETXpN>)",
+                            inline=True
+                        )
+                        embed.set_thumbnail(
+                            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(client.user)
+                        )
+                        embed.set_footer(
+                            text="このBOTをよろしく！！"
+                        )
+                        embed.set_author(
+                            name=client.user.name,
+                            icon_url=client.user.avatar_url
+                        )
+                        for channel in client.get_all_channels():
+                            if channel.name == 'mmo-global-chat':
+                                await client.send_message(channel,embed=embed)
+
+                    if message.content.startswith("自分の詳細") and message.content.endswith("自分の詳細"):
+                        user = message.author
+                        userjoindate = str(user.joined_at.strftime("%Y/%m/%d %H:%M:%S"))
+                        usercreatedate = str(user.created_at.strftime("%Y/%m/%d %H:%M:%S"))
+                        role = ", ".join([r.name for r in user.roles])
+                        nickname = str(user.display_name)
+
+                        up = discord.Color(random.randint(0,0xFFFFFF))
+
+                        userembed = discord.Embed(
+                            title=":pencil:ユーザー名:",
+                            description="**『" + user.name + "』**",
+                            color=up
+                        )
+                        userembed.set_author(
+                            name=user.name + "#" + user.discriminator + "のユーザー情報:"
+                        )
+                        userembed.add_field(
+                            name=":earth_asia:ニックネーム:",
+                            value="**" + nickname + "**"
+                        )
+                        userembed.add_field(
+                            name=":bulb:サーバー参加日:",
+                            value="**" + userjoindate + "**"
+                        )
+                        userembed.add_field(
+                            name=":bar_chart:アカウント作成日:",
+                            value="**" + usercreatedate + "**"
+                        )
+                        userembed.add_field(
+                            name=":hash:ユーザーID:",
+                            value="**" + user.id + "**"
+                        )
+                        userembed.set_thumbnail(
+                            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(user)
+                        )
+                        userembed.add_field(
+                            name=":scroll:ユーザーTAG:",
+
+                            value="**#" + user.discriminator + "**"
+                        )
+                        userembed.add_field(
+                            name=":signal_strength:ユーザーの現在のステータス:",
+                            value="**" + str(user.status) + "**"
+                        )
+                        userembed.add_field(
+                            name=":diamond_shape_with_a_dot_inside:ユーザーが現在付与されてる役職",
+                            value="**" + role + "**"
+                        )
+
+                        for channel in client.get_all_channels():
+                            if channel.name == 'mmo-global-chat':
+                                await client.send_message(channel,embed=userembed)
+
+                    if message.content.startswith("この鯖の詳細") and message.content.endswith("この鯖の詳細"):
+                        server = message.server
+                        region = message.server.region
+                        channelss = len(message.server.channels)
+                        memberss = len(message.server.members)
+                        role = str(len(server.roles))
+                        emoji = str(len(server.emojis))
+                        owner = server.owner
+                        tekitou = server.role_hierarchy[0]
+                        online = 0
+                        for i in server.members:
+                            if str(i.status) == 'online' or str(i.status) == 'idle' or str(i.status) == 'dnd':
+                                online += 1
+                        up = discord.Color(random.randint(0,0xFFFFFF))
+                        userembed = discord.Embed(
+                            title=server.name + "の情報:",
+                            color=up
+                        )
+                        userembed.set_thumbnail(
+                            url=server.icon_url
+                        )
+                        userembed.add_field(
+                            name="サーバーID:",
+                            value=server.id
+                        )
+                        userembed.add_field(
+                            name="サーバーオーナ:",
+                            value=owner
+                        )
+                        userembed.add_field(
+                            name="サーバーリュージョン:",
+                            value=region
+                        )
+                        userembed.add_field(
+                            name="メンバー数:",
+                            value=memberss
+                        )
+                        userembed.add_field(
+                            name="チャンネル数:",
+                            value=channelss
+                        )
+                        userembed.add_field(
+                            name="役職数:",
+                            value=role
+                        )
+                        userembed.add_field(
+                            name="現在オンラインの数:",
+                            value=online
+                        )
+                        userembed.add_field(
+                            name="鯖に追加した絵文字の数:",
+                            value=emoji
+                        )
+                        userembed.add_field(
+                            name="サーバー最上位役職:",
+                            value=tekitou
+                        )
+                        userembed.set_footer(
+                            text="サーバー作成日: " + server.created_at.__format__(' %Y/%m/%d %H:%M:%S')
+                        )
+                        for channel in client.get_all_channels():
+                            if channel.name == 'mmo-global-chat':
+                                await client.send_message(channel,embed=userembed)
+                        return
+                    
     if message.content.startswith('役職一覧') and message.content.endswith('役職一覧'):
         role = "\n".join([r.mention for r in message.author.roles if r.mentionable][::-1])
         up = discord.Color(random.randint(0,0xFFFFFF))
@@ -1806,4 +1653,4 @@ async def on_message(message: discord.Message):
             # -------------------------------------------------------------------------------------------------------------------
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
