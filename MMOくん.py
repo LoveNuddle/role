@@ -614,7 +614,7 @@ async def on_member_join(member):
         await client.send_message(server.get_channel('537973804052512779'),"<@304932786286886912> バグイベント～～～～！！")
         for channel in client.get_all_channels():
             if channel.name == 'mmo-global-chat':
-                await client.send_message(channel,"@everyone \nMMO特訓鯖でMMOくんの経験値バグイベントをします～！\n皆さん来てね～\n特訓場のURLはこのチャンネルでチャンネルトピックって打つと出てくるよ！")
+                await client.send_message(channel,"MMO特訓鯖でMMOくんの経験値バグイベントをします～！\n皆さん来てね～\n特訓場のURLはこのチャンネルでチャンネルトピックって打つと出てくるよ！")
     server = client.get_server('337524390155780107')
     await client.send_message(server.get_channel('537973804052512779'),"MMOくんバグイベント情報!!\n後`『{}』`人がこの鯖に入ったらバグ開始です！\nバグをする期間の目安は一日ぐらいだと思ってください。".format(int(50 - len(member.server.members) % 50)))
     await client.send_message(member,
