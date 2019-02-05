@@ -805,10 +805,13 @@ async def on_message(message: discord.Message):
     if message.content.startswith("バグ役職追加") and message.content.endswith("バグ役職追加"):
         up = discord.Color(random.randint(0,0xFFFFFF))
         role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
+        member = discord.utils.get(message.server.members,name=message.author.name)
         if role is None:
             await client.create_role(name="バグ通知OK!!",server=message.server, color=up,mentionable=True)
             await client.send_message(message.channel,"この鯖には『バグ通知OK!!』役職がなかったので勝手に作っちゃいました💛\nもう一度コマンドを打ってください！")
             return
+        if role in member.roles:
+            await client.send_message(message.channel,"あなたは既に役職を持っています！")
         else:
             await client.add_roles(message.author,role)
             await client.send_message(message.channel,"あなたに『バグ通知POK!!』の役職を付与しました。\nこれでバグの時は通知来るよ！！")
