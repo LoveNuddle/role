@@ -748,6 +748,65 @@ async def on_message(message: discord.Message):
 
     # ログは勝手に送ってくれるようにする
     # BOTのProfileを表示自分のメイン垢かドロキンさんの垢しか反応しない
+    if message.content.startswith("リスト"):
+        async def send(member_data):
+            up = discord.Color(random.randint(0,0xFFFFFF))
+            name = message.content[4:]
+            embed = discord.Embed(
+                title=f"『{name}』役職を持っているメンバー！！",
+                description=member_data,
+                color=up
+            )
+            embed.set_author(
+                name="メンバー詳細:"
+            )
+            embed.set_thumbnail(
+                url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
+            )
+            embed.set_footer(
+                text="リスト表示時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
+            )
+            await client.send_message(message.channel,embed=embed)
+
+        i = 1
+        member_data = ""
+        role = discord.utils.get(message.server.roles,name=message.content[4:])
+        for member in message.server.members:
+            if role in member.roles:
+                if not member.nick == None:  # ニックネーム存在確認
+                    member_name = member.nick
+                else:
+                    member_name = member.name
+                member_data += "{0}人目:『{1}』\n".format(i,member_name)
+                if i % 100 == 0:
+                    await send(member_data)
+                    # リセットする
+                    member_data = ""
+                i += 1
+        else:
+            await send(member_data)
+            return
+
+    if message.content.startswith('全役職一覧'):
+        def slice(li,n):
+            while li:
+                yield li[:n]
+                li = li[n:]
+        for roles in slice(message.server.role_hierarchy,25):
+            role = "\n".join(f'{i}: {role.mention}' for (i,role) in enumerate(roles, start=1) if role.mentionable)
+            userembed=discord.Embed(
+                title="役職一覧:",
+                description=role,
+                color=discord.Color.light_grey()
+            )
+            userembed.set_thumbnail(
+                url=message.server.icon_url
+                )
+            userembed.set_author(
+                name=message.server.name + "の全役職情報:"
+            )
+            await client.send_message(message.channel, embed=userembed)
+    
     if message.content.startswith("役職付与") and message.content.endswith("役職付与"):
         if not message.channel.id == "535957520666066954":
             channel = client.get_channel('535957520666066954')
