@@ -756,16 +756,12 @@ async def on_message(message: discord.Message):
                 title=f"『{name}』役職を持っているメンバー！！",
                 description=member_data,
                 color=up
-                timestamp=message.timestamp
             )
             embed.set_author(
                 name="メンバー詳細:"
             )
-            embed.set_thumbnail(
-                url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
-            )
             embed.set_footer(
-                text="リスト表示時刻: "
+                text="現在時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
             )
             await client.send_message(message.channel,embed=embed)
 
@@ -774,11 +770,7 @@ async def on_message(message: discord.Message):
         role = discord.utils.get(message.server.roles,name=message.content[4:])
         for member in message.server.members:
             if role in member.roles:
-                if not member.nick == None:  # ニックネーム存在確認
-                    member_name = member.nick
-                else:
-                    member_name = member.name
-                member_data += "{0}人目:『{1}』\n".format(i,member_name)
+                member_data += "{0}人目:『{1}』\n".format(i,member.name)
                 if i % 100 == 0:
                     await send(member_data)
                     # リセットする
