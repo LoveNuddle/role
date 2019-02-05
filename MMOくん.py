@@ -756,6 +756,7 @@ async def on_message(message: discord.Message):
                 title=f"『{name}』役職を持っているメンバー！！",
                 description=member_data,
                 color=up
+                timestamp=message.timestamp
             )
             embed.set_author(
                 name="メンバー詳細:"
@@ -764,7 +765,7 @@ async def on_message(message: discord.Message):
                 url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
             )
             embed.set_footer(
-                text="リスト表示時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
+                text="リスト表示時刻: "
             )
             await client.send_message(message.channel,embed=embed)
 
