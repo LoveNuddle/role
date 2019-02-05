@@ -611,10 +611,12 @@ async def on_member_join(member):
         return
     if int(50 - len(member.server.members) % 50) == int(50) :
         server = client.get_server('337524390155780107')
-        await client.send_message(server.get_channel('537973804052512779'),"<@304932786286886912> バグイベント～～～～！！")
+        role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
+        await client.send_message(server.get_channel('537973804052512779'),f"{role.mention} バグイベント～～～～！！")
         for channel in client.get_all_channels():
             if channel.name == 'mmo-global-chat':
-                await client.send_message(channel,"@everyone \nMMO特訓鯖でMMOくんの経験値バグイベントをします～！\n皆さん来てね～\n特訓場のURLはこのチャンネルでチャンネルトピックって打つと出てくるよ！")
+                role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
+                await client.send_message(channel,f"{role.mention} \nMMO特訓鯖でMMOくんの経験値バグイベントをします～！\n皆さん来てね～\n特訓場のURLはこのチャンネルでチャンネルトピックって打つと出てくるよ！")
     server = client.get_server('337524390155780107')
     await client.send_message(server.get_channel('537973804052512779'),"MMOくんバグイベント情報!!\n後`『{}』`人がこの鯖に入ったらバグ開始です！\nバグをする期間の目安は一日ぐらいだと思ってください。".format(int(50 - len(member.server.members) % 50)))
     await client.send_message(member,
@@ -799,6 +801,24 @@ async def on_message(message: discord.Message):
                 name=message.server.name + "の全役職情報:"
             )
             await client.send_message(message.channel, embed=userembed)
+    
+    if message.content.startswith("バグ役職追加") and message.content.endswith("バグ役職追加"):
+        up = discord.Color(random.randint(0,0xFFFFFF))
+        role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
+        if role is None:
+            await client.create_role(name="バグ通知OK!!",server=message.server, color=up,mentionable=True)
+            await client.send_message(message.channel,"この鯖には『バグ通知OK!!』役職がなかったので勝手に作っちゃいました💛\nもう一度コマンドを打ってください！")
+            return
+        else:
+            await client.add_roles(message.author,role)
+            await client.send_message(message.channel,"あなたに『バグ通知POK!!』の役職を付与しました。\nこれでバグの時は通知来るよ！！")
+            return
+
+    if message.content.startswith("バグ役職削除") and message.content.endswith("バグ役職削除"):
+        role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
+        await client.delete_role(message.server,role)
+        await client.send_message(message.channel,"削除完了！")
+        return
     
     if message.content.startswith("役職付与") and message.content.endswith("役職付与"):
         if not message.channel.id == "535957520666066954":
