@@ -792,7 +792,7 @@ async def on_message(message: discord.Message):
             while li:
                 yield li[:n]
                 li = li[n:]
-        for roles in slice(message.server.role_hierarchy,25):
+        for roles in slice(message.server.role_hierarchy,50):
             role = "\n".join(f'{i}: {role.mention}' for (i,role) in enumerate(roles, start=1) if role.mentionable)
             userembed=discord.Embed(
                 title="役職一覧:",
