@@ -903,7 +903,7 @@ async def on_message(message: discord.Message):
         await client.delete_message(message)
         await client.send_message(message.channel,embed=embed)
     
-        channel = [c for c in message.server.channels if message.channel.name == "mmo-global-chat"]
+    channel = [c for c in message.server.channels if message.channel.name == "mmo-global-chat"]
     if channel:
         if not message.author == client.user:
             if message.author.bot:
