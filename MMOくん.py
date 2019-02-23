@@ -789,12 +789,12 @@ async def on_message(message: discord.Message):
             await send(member_data)
             return
         
-    if message.content.startswith('全役職一覧'):
+    if message.content == "全役職一覧s":
         def slice(li,n):
             while li:
                 yield li[:n]
                 li = li[n:]
-        for roles in slice(message.server.role_hierarchy,50):
+        for roles in slice(message.server.role_hierarchy,100):
             role = "\n".join(f'{i}: {role.mention}' for (i,role) in enumerate(roles, start=1))
             userembed=discord.Embed(
                 title="役職一覧:",
@@ -808,6 +808,7 @@ async def on_message(message: discord.Message):
                 name=message.server.name + "の全役職情報:"
             )
             await client.send_message(message.channel, embed=userembed)
+            await client.send_message(message.channel,"この鯖の役職の合計の数は{}です！".format(str(len(message.server.roles))))
     
     if message.content.startswith("全鯖一覧") and message.content.endswith("全鯖一覧"):
         def slice(li,n):
