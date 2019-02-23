@@ -856,6 +856,18 @@ async def on_message(message: discord.Message):
         else:
             await client.add_roles(message.author,role)
             await client.send_message(message.channel,"{0}さんに『{1}』役職を付与しました。".format(message.author.mention,role))
+            
+    if message.content == "Banlist":
+        bannedUsers = await client.get_bans(message.server)
+        for user in bannedUsers:
+            embed = discord.Embed(
+                title="Banされた人たちリスト",
+                description='\n'.join(
+                    f'{i}:{user.name} | ID:{user.id}' for (i,user) in enumerate(bannedUsers,start=1)),
+                colour=discord.Color(random.randint(0,0xFFFFFF))
+            )
+            await client.send_message(message.channel,embed=embed)
+            return
 
     if datetime.now().strftime("%H:%M:%S") == datetime.now().strftime("23:00:00"):
         memberID = "304932786286886912"
