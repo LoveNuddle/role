@@ -789,7 +789,7 @@ async def on_message(message: discord.Message):
             await send(member_data)
             return
         
-    if message.content == "全役職一覧s":
+    if message.content == "全役職一覧":
         def slice(li,n):
             while li:
                 yield li[:n]
