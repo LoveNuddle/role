@@ -815,7 +815,7 @@ async def on_message(message: discord.Message):
                 li = li[n:]
         for servers in slice(list(client.servers),50):
             embed = discord.Embed(
-                title="全サーバー一覧",
+                title="全サーバーの一覧",
                 description='\n'.join(f'{i}: {server.name}' for (i,server) in enumerate(servers, start=1)),
                 colour=discord.Color(random.randint(0,0xFFFFFF))
             )
