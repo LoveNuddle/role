@@ -866,6 +866,12 @@ async def on_message(message: discord.Message):
                     f'{i}:{user.name} | ID:{user.id}' for (i,user) in enumerate(bannedUsers,start=1)),
                 colour=discord.Color(random.randint(0,0xFFFFFF))
             )
+            embed.set_thumbnail(
+                url=message.server.icon_url
+            )
+            embed.set_footer(
+                text="この鯖のBANされている人たちの合計の数は{}人です！".format(len(bannedUsers))
+            )
             await client.send_message(message.channel,embed=embed)
             return
 
