@@ -751,8 +751,12 @@ async def on_message(message: discord.Message):
         async def send(member_data):
             up = discord.Color(random.randint(0,0xFFFFFF))
             name = message.content[4:]
+            if not role ==  None:
+                nick_name = f"『{name}』役職を持っているメンバー！！"
+            else:
+                nick_name = f"『{message.author}』さん\nその名前の役職はこの鯖には存在しておりません..."
             embed = discord.Embed(
-                title=f"『{name}』役職を持っているメンバー！！",
+                title=nick_name,
                 description=member_data,
                 color=up
             )
@@ -764,10 +768,15 @@ async def on_message(message: discord.Message):
             )
             await client.send_message(message.channel,embed=embed)
 
+
         i = 1
         member_data = ""
         role = discord.utils.get(message.server.roles,name=message.content[4:])
         for member in message.server.members:
+            if role is None:
+                member_data = ""
+                await send(member_data)
+                return
             if role in member.roles:
                 member_data += "{0}人目:『{1}』\n".format(i,member.name)
                 if i % 100 == 0:
