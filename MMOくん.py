@@ -751,23 +751,24 @@ async def on_message(message: discord.Message):
         async def send(member_data):
             up = discord.Color(random.randint(0,0xFFFFFF))
             name = message.content[4:]
+            role = discord.utils.get(message.server.roles,name=message.content[4:])
             if not role ==  None:
                 nick_name = f"『{name}』役職を持っているメンバー！！"
             else:
-                nick_name = f"『{message.author}』さん\nその名前の役職はこの鯖には存在しておりません..."
+                nick_name = f"{message.author}さん\n『{name}』役職はこの鯖には存在しておりません..."
             embed = discord.Embed(
                 title=nick_name,
                 description=member_data,
-                color=up
+                color=up,
+                timestamp=message.timestamp
             )
             embed.set_author(
                 name="メンバー詳細:"
             )
             embed.set_footer(
-                text="現在時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
+                text="現在時刻:"
             )
             await client.send_message(message.channel,embed=embed)
-
 
         i = 1
         member_data = ""
@@ -787,7 +788,7 @@ async def on_message(message: discord.Message):
         else:
             await send(member_data)
             return
-
+        
     if message.content.startswith('全役職一覧'):
         def slice(li,n):
             while li:
