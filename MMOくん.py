@@ -794,7 +794,7 @@ async def on_message(message: discord.Message):
             counter = 0
             channel_name = client.get_channel("550674420222394378")
             for i in message.server.channels:
-                async for log in client.logs_from(i,limit=99999999999)
+                async for log in client.logs_from(i,limit=99999999999):
                     if log.server.id == message.server.id:
                         counter += 1
                 await client.edit_channel(channel_name,name="Message Count: {}".format(counter))
