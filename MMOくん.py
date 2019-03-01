@@ -798,7 +798,9 @@ async def on_message(message: discord.Message):
                     if log.server.id == message.server.id:
                         counter += 1
                 await client.edit_channel(channel_name,name="Message Count: {}".format(counter))
-                await client.send_message(message.channel,"{}のメッセージが検出されました。".format(counter))
+                await client.send_message(message.channel,
+                                          "『{}』のメッセージが検出されました。".format(counter))
+            await client.send_message(message.channel,"{0}さん。\n合計で『{1}』のメッセージが検出されました。".format(message.author.mention,counter))
     
     if message.content == "全役職一覧":
         def slice(li,n):
