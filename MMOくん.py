@@ -1916,4 +1916,4 @@ async def on_message(message: discord.Message):
             # -------------------------------------------------------------------------------------------------------------------
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
