@@ -826,14 +826,16 @@ async def on_message(message: discord.Message):
                 await client.delete_message(a)
                 return
             else:
-                roles = [role for role in message.server.roles if role.name in message.content]
+                attachable_roles = ("境界線の彼方","輝く星の最果て","大地の根源と終末","休日のとある一日","宇宙に広がる星屑の集合体")
+                roles = [role for role in message.server.roles if
+                         role.name in attachable_roles and role.name in message.content]
                 if not roles:
-                    a = await client.send_message(message.channel,f"{message.author.mention}さん。この鯖にはこの役職名の役職は存在しません！")
+                    a = await client.send_message(message.channel,f"{message.author.mention}さん。この鯖にはこの役職名の役職は存在しないか付与することが出来ない役職です！")
                     await asyncio.sleep(10)
                     await client.delete_message(a)
                     return
                 else:
-                    await client.add_roles(message.author, *roles)
+                    await client.add_roles(message.author,*roles)
                     a = await client.send_message(message.channel,
                                               f'{message.author.mention} さんは『{",".join([x.name for x in roles])}』クランに参加しました！')
                     await asyncio.sleep(10)
