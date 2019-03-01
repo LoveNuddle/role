@@ -842,7 +842,50 @@ async def on_message(message: discord.Message):
                     await client.delete_message(a)
                     return
 
-    if message.content == "クラン勢力図":
+    if message.content.startswith("除外"):
+        user = message.mentions[0]
+        role = discord.utils.get(message.server.roles,name="境界線の彼方:総長&副総長")
+        role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
+        for member in message.server.members:
+            if role in member.roles:
+                if role1 in user.roles:
+                    await client.remove_roles(user,role1)
+                    await client.send_message(client.get_channel("550936853281243136"),f"{message.author.mention}さんが{user}さんを除外しました。")
+                    return
+        role = discord.utils.get(message.server.roles,name="輝く星の最果て:総長&副総長")
+        role1 = discord.utils.get(message.server.roles,name="輝く星の最果て")
+        for member in message.server.members:
+            if role in member.roles:
+                if role1 in user.roles:
+                    await client.remove_roles(user,role1)
+                    await client.send_message(client.get_channel("550937108915945473"),f"{message.author.mention}さんが{user}さんを除外しました。")
+                    return
+        role = discord.utils.get(message.server.roles,name="大地の根源と終末:総長&副総長")
+        role1 = discord.utils.get(message.server.roles,name="大地の根源と終末")
+        for member in message.server.members:
+            if role in member.roles:
+                if role1 in user.roles:
+                    await client.remove_roles(user,role1)
+                    await client.send_message(client.get_channel("550937434569965576"),f"{message.author.mention}さんが{user}さんを除外しました。")
+                    return
+        role = discord.utils.get(message.server.roles,name="休日のとある一日:総長&副総長")
+        role1 = discord.utils.get(message.server.roles,name="休日のとある一日")
+        for member in message.server.members:
+            if role in member.roles:
+                if role1 in user.roles:
+                    await client.remove_roles(user,role1)
+                    await client.send_message(client.get_channel("550937533878370338"),f"{message.author.mention}さんが{user}さんを除外しました。")
+                    return
+        role = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体:総長&副総長")
+        role1 = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体")
+        for member in message.server.members:
+            if role in member.roles:
+                if role1 in user.roles:
+                    await client.remove_roles(user,role1)
+                    await client.send_message(client.get_channel("550937847616765973"),f"{message.author.mention}さんが{user}さんを除外しました。")
+                    return
+                                                  
+        if message.content == "クラン勢力図":
         role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
         count1 = len([m for m in message.server.members if role1 in m.roles])
         role2 = discord.utils.get(message.server.roles,name="輝く星の最果て")
@@ -874,6 +917,10 @@ async def on_message(message: discord.Message):
                         
                         ※総長や副総長などはそのクランで
                         15名を超えないと就任することが出来ません。
+                        
+                        総長や副総長は悪目立ちしてる人や
+                        荒らしが入ってきた場合、自分のクランのメンバーだけに対して
+                        『除外 @メンション』とすればそのメンバーは除外されます。
                         """,
             colour=up
         )
