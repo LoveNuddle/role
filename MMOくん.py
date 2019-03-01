@@ -885,7 +885,7 @@ async def on_message(message: discord.Message):
                     await client.send_message(client.get_channel("550937847616765973"),f"{message.author.mention}さんが{user}さんを除外しました。")
                     return
                                                   
-        if message.content == "クラン勢力図":
+    if message.content == "クラン勢力図":
         role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
         count1 = len([m for m in message.server.members if role1 in m.roles])
         role2 = discord.utils.get(message.server.roles,name="輝く星の最果て")
