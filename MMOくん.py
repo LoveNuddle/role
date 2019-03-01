@@ -789,6 +789,95 @@ async def on_message(message: discord.Message):
             await send(member_data)
             return
     
+    if message.channel.id == "550941424065970176":
+        if message.author.id == client.user.id:
+            return
+        await asyncio.sleep(2)
+        await client.delete_message(message)
+        if "に入りたい" in message.content:
+            role = discord.utils.get(message.server.roles,name="境界線の彼方")
+            if role in message.author.roles:
+                a = await client.send_message(message.channel,f"{message.author.mention}さん！\nあなたは既に一つのクランに所属しています！")
+                await asyncio.sleep(10)
+                await client.delete_message(a)
+                return
+            role = discord.utils.get(message.server.roles,name="輝く星の最果て")
+            if role in message.author.roles:
+                a = await client.send_message(message.channel,f"{message.author.mention}さん！\nあなたは既に一つのクランに所属しています！")
+                await asyncio.sleep(10)
+                await client.delete_message(a)
+                return
+            role = discord.utils.get(message.server.roles,name="大地の根源と終末")
+            if role in message.author.roles:
+                a = await client.send_message(message.channel,f"{message.author.mention}さん！\nあなたは既に一つのクランに所属しています！")
+                await asyncio.sleep(10)
+                await client.delete_message(a)
+                return
+            role = discord.utils.get(message.server.roles,name="休日のとある一日")
+            if role in message.author.roles:
+                a = await client.send_message(message.channel,f"{message.author.mention}さん！\nあなたは既に一つのクランに所属しています！")
+                await asyncio.sleep(10)
+                await client.delete_message(a)
+                return
+            role = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体")
+            if role in message.author.roles:
+                a = await client.send_message(message.channel,f"{message.author.mention}さん！\nあなたは既に一つのクランに所属しています！")
+                await asyncio.sleep(10)
+                await client.delete_message(a)
+                return
+            else:
+                roles = [role for role in message.server.roles if role.name in message.content]
+                if not roles:
+                    a = await client.send_message(message.channel,f"{message.author.mention}さん。この鯖にはこの役職名の役職は存在しません！")
+                    await asyncio.sleep(10)
+                    await client.delete_message(a)
+                    return
+                else:
+                    await client.add_roles(message.author, *roles)
+                    a = await client.send_message(message.channel,
+                                              f'{message.author.mention} さんは『{",".join([x.name for x in roles])}』クランに参加しました！')
+                    await asyncio.sleep(10)
+                    await client.delete_message(a)
+                    return
+
+    if message.content == "クラン勢力図":
+        role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
+        count1 = len([m for m in message.server.members if role1 in m.roles])
+        role2 = discord.utils.get(message.server.roles,name="輝く星の最果て")
+        count2 = len([m for m in message.server.members if role2 in m.roles])
+        role3 = discord.utils.get(message.server.roles,name="大地の根源と終末")
+        count3 = len([m for m in message.server.members if role3 in m.roles])
+        role4 = discord.utils.get(message.server.roles,name="休日のとある一日")
+        count4 = len([m for m in message.server.members if role4 in m.roles])
+        role5 = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体")
+        count5 = len([m for m in message.server.members if role5 in m.roles])
+        up = discord.Color(random.randint(0,0xFFFFFF))
+        embed = discord.Embed(
+            title="クランの勢力表:",
+            description=f"""
+                        {role1.mention}: {count1}名
+                        総長:現在無し | 副総長:現在無し
+                        
+                        {role2.mention}: {count2}名
+                        総長:現在無し | 副総長:現在無し
+                        
+                        {role3.mention}: {count3}名
+                        総長:現在無し | 副総長:現在無し
+                        
+                        {role4.mention}: {count4}名
+                        総長:現在無し | 副総長:現在無し
+                        
+                        {role5.mention}: {count5}名
+                        総長:現在無し | 副総長:現在無し
+                        
+                        ※総長や副総長などはそのクランで
+                        15名を超えないと就任することが出来ません。
+                        """,
+            colour=up
+        )
+        await client.send_message(message.channel,embed=embed)
+        return
+    
     if message.content == "&get":
         if message.author.server_permissions.administrator:
             counter = 0
