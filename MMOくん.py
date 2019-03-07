@@ -844,46 +844,115 @@ async def on_message(message: discord.Message):
 
     if message.content.startswith("除外"):
         user = message.mentions[0]
+        try:
+            reason = message.content.split()[2]
+        except Exception:
+            reason = None
         role = discord.utils.get(message.server.roles,name="境界線の彼方:総長&副総長")
         role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
         for member in message.server.members:
             if role in member.roles:
-                if role1 in user.roles:
-                    await client.remove_roles(user,role1)
-                    await client.send_message(client.get_channel("550936853281243136"),f"{message.author.mention}さんが{user}さんを除外しました。")
-                    return
+                if message.channel.id == "550936853281243136":
+                    if role1 in user.roles:
+                        if not reason:
+                            await client.send_message(message.channel,"理由をお書きください。\n[例:除外 @メンション 理由]")
+                            return
+                        else:
+                            await client.remove_roles(user,role1)
+                            await client.send_message(message.channel,
+                                                          f"{message.author.mention}さんが『{user}』さんを除外しました。")
+                            up = discord.Color(random.randint(0,0xFFFFFF))
+                            embed = discord.Embed(
+                                title="除外ログ",
+                                description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
+                                colour=up
+                            )
+                            await client.send_message(client.get_channel("553028767702974464"),embed=embed)
+                            return
         role = discord.utils.get(message.server.roles,name="輝く星の最果て:総長&副総長")
         role1 = discord.utils.get(message.server.roles,name="輝く星の最果て")
         for member in message.server.members:
             if role in member.roles:
-                if role1 in user.roles:
-                    await client.remove_roles(user,role1)
-                    await client.send_message(client.get_channel("550937108915945473"),f"{message.author.mention}さんが{user}さんを除外しました。")
-                    return
+                if message.channel.id == "550937108915945473":
+                    if role1 in user.roles:
+                        if not reason:
+                            await client.send_message(message.channel,"理由をお書きください。\n[例:除外 @メンション 理由]")
+                            return
+                        else:
+                            await client.remove_roles(user,role1)
+                            await client.send_message(message.channel,
+                                                          f"{message.author.mention}さんが『{user}』さんを除外しました。")
+                            up = discord.Color(random.randint(0,0xFFFFFF))
+                            embed = discord.Embed(
+                                title="除外ログ",
+                                description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
+                                colour=up
+                            )
+                            await client.send_message(client.get_channel("553028767702974464"),embed=embed)
+                            return
         role = discord.utils.get(message.server.roles,name="大地の根源と終末:総長&副総長")
         role1 = discord.utils.get(message.server.roles,name="大地の根源と終末")
         for member in message.server.members:
             if role in member.roles:
-                if role1 in user.roles:
-                    await client.remove_roles(user,role1)
-                    await client.send_message(client.get_channel("550937434569965576"),f"{message.author.mention}さんが{user}さんを除外しました。")
-                    return
+                if message.channel.id == "550937434569965576":
+                    if role1 in user.roles:
+                        if not reason:
+                            await client.send_message(message.channel,"理由をお書きください。\n[例:除外 @メンション 理由]")
+                            return
+                        else:
+                            await client.remove_roles(user,role1)
+                            await client.send_message(message.channel,
+                                                          f"{message.author.mention}さんが『{user}』さんを除外しました。")
+                            up = discord.Color(random.randint(0,0xFFFFFF))
+                            embed = discord.Embed(
+                                title="除外ログ",
+                                description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
+                                colour=up
+                            )
+                            await client.send_message(client.get_channel("553028767702974464"),embed=embed)
+                            return
         role = discord.utils.get(message.server.roles,name="休日のとある一日:総長&副総長")
         role1 = discord.utils.get(message.server.roles,name="休日のとある一日")
         for member in message.server.members:
             if role in member.roles:
-                if role1 in user.roles:
-                    await client.remove_roles(user,role1)
-                    await client.send_message(client.get_channel("550937533878370338"),f"{message.author.mention}さんが{user}さんを除外しました。")
-                    return
+                if message.channel.id == "550937533878370338":
+                    if role1 in user.roles:
+                        if not reason:
+                            await client.send_message(message.channel,"理由をお書きください。\n[例:除外 @メンション 理由]")
+                            return
+                        else:
+                            await client.remove_roles(user,role1)
+                            await client.send_message(message.channel,
+                                                          f"{message.author.mention}さんが『{user}』さんを除外しました。")
+                            up = discord.Color(random.randint(0,0xFFFFFF))
+                            embed = discord.Embed(
+                                title="除外ログ",
+                                description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
+                                colour=up
+                            )
+                            await client.send_message(client.get_channel("553028767702974464"),embed=embed)
+                            return
         role = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体:総長&副総長")
         role1 = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体")
         for member in message.server.members:
             if role in member.roles:
-                if role1 in user.roles:
-                    await client.remove_roles(user,role1)
-                    await client.send_message(client.get_channel("550937847616765973"),f"{message.author.mention}さんが{user}さんを除外しました。")
-                    return
+                if message.channel.id =="551523371364384779":
+                    if role1 in user.roles:
+                        if not reason:
+                            await client.send_message(message.channel,"理由をお書きください。\n[例:除外 @メンション 理由]")
+                            return
+                        else:
+                            await client.remove_roles(user,role1)
+                            await client.send_message(message.channel,
+                                                          f"{message.author.mention}さんが{user}さんを除外しました。")
+                            up = discord.Color(random.randint(0,0xFFFFFF))
+                            embed = discord.Embed(
+                                title="除外ログ",
+                                description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
+                                colour=up
+                            )
+                            await client.send_message(client.get_channel("553028767702974464"),embed=embed)
+                            return
                                                   
     if message.content == "クラン勢力図":
         role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
