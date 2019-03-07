@@ -907,7 +907,7 @@ async def on_message(message: discord.Message):
                         総長:<@376728551904247808>さん | 副総長:<@527716276643299329>さん
                         
                         {role3.mention}: {count3}名
-                        総長:現在無し | 副総長:現在無し
+                        総長:<@460208854362357770>さん | 副総長:<@507161988682743818>さん
                         
                         {role4.mention}: {count4}名
                         総長:現在無し | 副総長:現在無し
@@ -1916,4 +1916,4 @@ async def on_message(message: discord.Message):
             # -------------------------------------------------------------------------------------------------------------------
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN"))
+client.run(os.environ.get("TOKEN")
