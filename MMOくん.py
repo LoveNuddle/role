@@ -1042,7 +1042,7 @@ async def on_message(message: discord.Message):
         await client.logout()
         await client.close()
 
-    channel = [c for c in message.server.channels if message.channel.name == "mmo-global-chat"]
+    channel = [c for c in message.server.channels if message.channel.name == "tao-global"]
     if channel:
         if not message.author == client.user:
             if not message.author.bot:
@@ -1064,7 +1064,7 @@ async def on_message(message: discord.Message):
                     icon_url=message.server.icon_url
                 )
                 await asyncio.gather(*(client.send_message(c,embed=embed) for c in client.get_all_channels() if
-                                       c.name == 'mmo-global-chat'))
+                                       c.name == 'tao-global'))
                 return
                     
     if message.content.startswith('役職一覧') and message.content.endswith('役職一覧'):
