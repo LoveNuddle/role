@@ -867,6 +867,9 @@ async def on_message(message: discord.Message):
                                 description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
                                 colour=up
                             )
+                            embed.set_footer(
+                                text=f"今現在の境界線の彼方のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                            )
                             await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                             return
         role = discord.utils.get(message.server.roles,name="輝く星の最果て:総長&副総長")
@@ -887,6 +890,9 @@ async def on_message(message: discord.Message):
                                 title="除外ログ",
                                 description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
                                 colour=up
+                            )
+                            embed.set_footer(
+                                text=f"今現在の輝く星の最果てのメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
                             )
                             await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                             return
@@ -909,6 +915,9 @@ async def on_message(message: discord.Message):
                                 description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
                                 colour=up
                             )
+                            embed.set_footer(
+                                text=f"今現在の大地の根源と終末のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                            )
                             await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                             return
         role = discord.utils.get(message.server.roles,name="休日のとある一日:総長&副総長")
@@ -930,6 +939,9 @@ async def on_message(message: discord.Message):
                                 description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
                                 colour=up
                             )
+                            embed.set_footer(
+                                text=f"今現在の休日のとある一日のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                            )
                             await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                             return
         role = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体:総長&副総長")
@@ -950,6 +962,9 @@ async def on_message(message: discord.Message):
                                 title="除外ログ",
                                 description=f"{role1.mention}情報!!:\n\n{message.author.mention}さんが『{user.mention}』さんを除外しました。\n\n理由:\n```{reason}```",
                                 colour=up
+                            )
+                            embed.set_footer(
+                                text=f"今現在の宇宙に広がる星屑の集合体のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
                             )
                             await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                             return
@@ -1985,4 +2000,4 @@ async def on_message(message: discord.Message):
             # -------------------------------------------------------------------------------------------------------------------
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
