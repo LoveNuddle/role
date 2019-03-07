@@ -982,34 +982,6 @@ async def on_message(message: discord.Message):
                                           "『{}』のメッセージが検出されました。".format(counter))
             await client.send_message(message.channel,"{0}さん。\n合計で『{1}』のメッセージが検出されました。".format(message.author.mention,counter))
     
-    if message.content == "グローバルリスト":
-        async def send(server_data):
-            up = discord.Color(random.randint(0,0xFFFFFF))
-            embed = discord.Embed(
-                title="tao-globalチャンネルに接続してるサバリスト:",
-                description=server_data,
-                color=up,
-                timestamp=message.timestamp
-            )
-            embed.set_footer(
-                text="現在時刻:"
-            )
-            await client.send_message(message.channel,embed=embed)
-
-        i = 1
-        server_data = ""
-        for server in client.servers:
-            if [client.get_all_channels() for channel in server.channels if channel.name == "tao-global"]:
-                server_data += "{0}:『{1}』\n".format(i,server.name)
-                if i % 100 == 0:
-                    await send(server_data)
-                    # リセットする
-                    server_data = ""
-                i += 1
-        else:
-            await send(server_data)
-            return
-    
     if message.content == "全役職一覧":
         def slice(li,n):
             while li:
@@ -1110,7 +1082,35 @@ async def on_message(message: discord.Message):
                 )
                 await asyncio.gather(*(client.send_message(c,embed=embed) for c in client.get_all_channels() if
                                        c.name == 'tao-global'))
-                return
+
+                if message.content == "グローバルリスト":
+                    async def send(server_data):
+                        up = discord.Color(random.randint(0,0xFFFFFF))
+                        embed = discord.Embed(
+                            title="tao-globalチャンネルに接続してるサバリスト:",
+                            description=server_data,
+                            color=up,
+                            timestamp=message.timestamp
+                        )
+                        embed.set_footer(
+                            text="現在時刻:"
+                        )
+                        await asyncio.gather(*(client.send_message(c,embed=embed) for c in client.get_all_channels() if
+                                               c.name == 'tao-global'))
+
+                    i = 1
+                    server_data = ""
+                    for server in client.servers:
+                        if [client.get_all_channels() for channel in server.channels if channel.name == "tao-global"]:
+                            server_data += "{0}:『{1}』\n".format(i,server.name)
+                            if i % 100 == 0:
+                                await send(server_data)
+                                # リセットする
+                                server_data = ""
+                            i += 1
+                    else:
+                        await send(server_data)
+                        return
                     
     if message.content.startswith('役職一覧') and message.content.endswith('役職一覧'):
         role = "\n".join([r.mention for r in message.author.roles if r.mentionable][::-1])
@@ -1679,4 +1679,4 @@ async def on_message(message: discord.Message):
                             return
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
