@@ -3,8 +3,6 @@ import sys
 import random
 import asyncio
 import os
-
-
 from datetime import datetime
 from itertools import cycle
 
@@ -20,9 +18,8 @@ except ImportError:
     sys.exit(1)
 
 client = Bot(command_prefix=';', pm_help=True)
-status=['このBOTはTAOと連動しています！', '::stか::statusしてね！', '役職更新頑張って！']
+status=['このBOTはTAOと連動しています！', '::stか::statusしてね！', f'現在{len(client.servers)}鯖がこのBOTを導入しています！']
 version=discord.__version__
-RE_STATUS = re.compile(r"<@(\d+)>のステータス\nLv: (\d+)", re.MULTILINE)
 prefix = '&'
 
 #-------------------------------------------------------------------------------------------------------------------
@@ -63,63 +60,7 @@ ROLE = (
     (lambda x: 4250 <= x ,'RPG最初のレベル上げ(Lv4250以上)'),
 )
 
-#のんきなMMO&miner&tao&uuuレベル上げ場
-ROLE_MAP = (
-    (lambda x: 1 <= x < 5, 'Lv1　RPGをよく知らない人'),
-    (lambda x: 5 <= x < 10, 'Lv5　初心者'),
-    (lambda x: 10 <= x < 50, 'Lv10　レベ上げ中の人'),
-    (lambda x: 50 <= x < 75, 'Lv50　初心者卒業者？'),
-    (lambda x: 75 <= x < 100, 'Lv75　初心者卒業者'),
-    (lambda x: 100 <= x < 200,'Lv100　中級者'),
-    (lambda x: 200 <= x < 300, 'lv200　中上級者'),
-    (lambda x: 300 <= x < 500, 'Lv300　上級者'),
-    (lambda x: 500 <= x < 750, 'Lv500　バウンティハンター'),
-    (lambda x: 750 <= x < 1000, 'Lv750　魔界ヲ統ベル者'),
-    (lambda x: 1000 <= x < 1250, 'Lv1000　神罰の地上代行者'),
-    (lambda x: 1250 <= x < 1500, 'Lv1250　魔界の頂点に立つ者'),
-    (lambda x: 1500 <= x < 1750, 'Lv1500　魔界の界王'),
-    (lambda x: 1750 <= x < 2000, 'Lv1750　破壊神'),
-    (lambda x: 2000 <= x < 2250, 'Lv2000　創造神'),
-    (lambda x: 2250 <= x < 2500, 'Lv2250　次元を超えし者'),
-    (lambda x: 2500 <= x < 2750,'Lv2500　覇者'),
-    (lambda x: 2750 <= x < 3000, 'Lv2750　覇者の中でもトップクラス'),
-    (lambda x: 3000 <= x < 3250, 'Lv3000　覇者の中でも一番強き者'),
-    (lambda x: 3250 <= x < 3500, 'Lv3250　夢からの刺客'),
-    (lambda x: 3500 <= x < 3750, 'Lv3500　夢見の王'),
-    (lambda x: 3750 <= x < 4000,'Lv3750　闇を切り裂く勇者'),
-    (lambda x: 4000 <= x < 4250,'Lv4000　限界突破'),
-    (lambda x: 4250 <= x < 4500,'Lv4250　MMOくんの友達'),
-    (lambda x: 4500 <= x < 4750,'Lv4500 　MMOくんの親友'),
-    (lambda x: 4750 <= x < 5000,'Lv4750　 MMOくんの相棒'),
-    (lambda x: 5000 <= x < 5250,'Lv5000　冥界意志 The_will_of_Hades'),
-    (lambda x: 5250 <= x < 5500,'Lv5250　断罪者'),
-    (lambda x: 5500 <= x < 5750,'Lv5500 青き地獄'),
-    (lambda x: 5750 <= x < 6000,'Lv5750　血の空'),
-    (lambda x: 6000 <= x < 6250,'Lv6000 神を超越した者'),
-    (lambda x: 6250 <= x < 6500,'Lv6250 第一形態'),
-    (lambda x: 6500 <= x < 6750,'Lv6500 第二形態'),
-    (lambda x: 6750 <= x < 7000,'Lv6750 第三形態'),
-    (lambda x: 7000 <= x < 7250,'Lv7000 虚数形態'),
-    (lambda x: 7250 <= x < 7500,'Lv7250　次元を壊し者'),
-    (lambda x: 7500 <= x < 7750,'Lv7500 飽きてきた人'),
-    (lambda x: 7750 <= x < 8000,'Lv7750 作業厨'),
-    (lambda x: 8000 <= x < 8250,'Lv8000 お遊びはおしまいだ'),
-    (lambda x: 8250 <= x < 8500,'Lv8250 銀河を喰らいし者'),
-    (lambda x: 8500 <= x < 8750,'Lv8500 伝説の勇者'),
-    (lambda x: 8750 <= x < 9000,'Lv8750 永遠とmmoをやり続ける者'),
-    (lambda x: 9000 <= x < 9250,'Lv9000 古代勇者　-Ancient-'),
-    (lambda x: 9250 <= x < 9500,'Lv9250 英雄'),
-    (lambda x: 9500 <= x < 9750,'Lv9500 地獄のサバイバー'),
-    (lambda x: 9750 <= x < 10000,'Lv9750 バグ使っただろ^^'),
-    (lambda x: 10000 <= x < 30000,'Lv10000　夢を帯し者'),
-    (lambda x: 30000 <= x < 50000,'Lv30000　真・超上位破壊神の領域'),
-    (lambda x: 50000 <= x < 100000,'Lv50000 無限の可能性'),
-    (lambda x: 100000 <= x < 200000,'Lv100000　一閃の稲妻'),
-    (lambda x: 200000 <= x < 300000,'Lv200000 騎虎の元帥'),
-    (lambda x: 300000 <= x < 400000,'Lv300000　†「怪竜」・八岐大蛇　†'),
-    (lambda x: 400000 <= x < 500000,'Lv400000　憎悪と絶望の堕天使'),
-    (lambda x: 500000 <= x ,'Lv500000　危険な香り'),
-)
+
 #のんきなMMO&miner&tao&uuuレベル上げ場
 ROLES = (
     (lambda x: 1 <= x < 30,'Lv1 [tao]taoをよく知らない人'),
@@ -404,150 +345,7 @@ ROLE_LEVELSSSSS = {
 
 @client.event
 async def on_ready():
-    up = discord.Color(random.randint(0,0xFFFFFF))
-    embed = discord.Embed(
-        title="起動しました！",
-        description="",
-        color=up
-    )
-    embed.set_author(
-        name="役職自動付与BOT"
-    )
-    embed.set_footer(
-        text="起動時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
-    )
-    embed.set_thumbnail(
-        url="https://cdn.discordapp.com/avatars/{0.user.id}/{0.user.avatar}.png?size=1024".format(client)
-    )
-    embed.set_footer(
-        text="現在時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
-    )
-    embed.add_field(
-        name="BOTが再起動しました。",
-        value="役職を持っていない方は「役職付与」と打ってください。",
-        inline=False
-    )
-    server = client.get_server('337524390155780107')
-    await client.send_message(server.get_channel('535957520666066954'),embed=embed)
     print("起動完了じゃああああああああああああああああああああ")
-    memberID = "304932786286886912"
-    server = client.get_server('337524390155780107')
-    person = discord.Server.get_member(server,memberID)
-    up = discord.Color(random.randint(0,0xFFFFFF))
-    embed = discord.Embed(
-        title="起動しました！",
-        description="このBOTはTAOと連動しています",
-        color=up
-    )
-    embed.set_author(
-        name="役職自動付与BOT"
-    )
-    embed.set_footer(
-        text="起動時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
-    )
-    embed.set_thumbnail(
-        url="https://cdn.discordapp.com/avatars/{0.user.id}/{0.user.avatar}.png?size=1024".format(client)
-    )
-    embed.set_footer(
-        text="現在時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
-    )
-    embed.add_field(
-        name="このBOTの名前:",
-        value=client.user.name,
-        inline=False
-    )
-    embed.add_field(
-        name="このBOTのID:",
-        value=client.user.id,
-        inline=False
-    )
-    embed.add_field(
-        name="BOTが取得してるサーバーの数",
-        value=(len(client.servers)),
-        inline=False
-    )
-    embed.add_field(
-        name="BOTが取得してるユーザー数",
-        value=(len(set(client.get_all_members()))),
-        inline=False
-    )
-    embed.add_field(
-        name="BOTが取得してるチャンネル数",
-        value=(len([c for c in client.get_all_channels()])),
-        inline=False
-    )
-    embed.add_field(
-        name="BOTの招待",
-        value="[**ここからお願いします**](<https://discordapp.com/oauth2/authorize?client_id=529149531800076319&permissions=8&scope=bot>)",
-        inline=False
-    )
-    embed.set_footer(
-        text="このBOTの作成日: " + client.user.created_at.__format__(' %Y/%m/%d %H:%M:%S')
-    )
-    await client.send_message(person, embed=embed)
-    server = client.get_server('337524390155780107')
-    a = await client.send_message(server.get_channel('338151444731658240'),"起動完了じゃあああああああああああああああああああああああ")
-    await asyncio.sleep(60)
-    await client.delete_message(a)
-    return
-
-
-#-------------------------------------------------------------------------------------------------------------------
-
-@client.event
-async def on_server_remove(server):
-    await client.send_message(server.owner, "```このBOTをいままでありがとう！\nこのBOTの事はThe.First.Step#3454に言ってね\nもしこのBOTを正常に動かしたいのであれば兄者にDMで言ってください！```")
-    up = discord.Color(random.randint(0,0xFFFFFF))
-    embed = discord.Embed(
-        title=server.name+"鯖がこのBOTをKICKしま   した",
-        description="このBOTはTAOと連動しています",
-        color=up
-    )
-    embed.set_author(
-        name="役職自動付与BOTをKICKした鯖情報:"
-    )
-    embed.set_thumbnail(
-        url=server.icon_url
-    )
-    embed.set_footer(
-        text="現在時刻:" + datetime.now().strftime(" %Y/%m/%d %H:%M:%S")
-    )
-    embed.add_field(
-        name="鯖名:",
-        value=server.name,
-        inline=True
-    )
-    embed.add_field(
-        name="サーバーID:",
-        value=server.id,
-        inline=True
-    )
-    embed.add_field(
-        name="鯖のチャンネル数:",
-        value=len(server.channels),
-        inline=True
-    )
-    embed.add_field(
-        name="鯖の人数:",
-        value=len(server.members),
-        inline=True
-    )
-    embed.add_field(
-        name="役職数:",
-        value=str(len(server.roles)),
-        inline=True
-    )
-    embed.add_field(
-        name="鯖の主の名前:",
-        value=server.owner,
-        inline=True
-    )
-    embed.set_footer(
-        text="サーバー作成日: " + server.created_at.__format__(' %Y/%m/%d %H:%M:%S')
-    )
-    server = client.get_server('526274496177635338')
-    await client.send_message(server.get_channel('529139075165192192'),embed=embed)
-
 
 @client.event
 async def on_server_join(server):
@@ -611,11 +409,10 @@ async def on_member_join(member):
         return
     if int(50 - len(member.server.members) % 50) == int(50) :
         server = client.get_server('337524390155780107')
-        role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
-        await client.send_message(server.get_channel('537973804052512779'),f"{role.mention} バグイベント～～～～！！")
+        await client.send_message(server.get_channel('537973804052512779'),f"@here \nクランイベント～～～～！！")
         return
     server = client.get_server('337524390155780107')
-    await client.send_message(server.get_channel('537973804052512779'),"MMOくんバグイベント情報!!\n後`『{}』`人がこの鯖に入ったらバグ開始です！\nバグをする期間の目安は一日ぐらいだと思ってください。".format(int(50 - len(member.server.members) % 50)))
+    await client.send_message(server.get_channel('537973804052512779'),"TAOクランイベント情報!!\n後`『{}』`人がこの鯖に入ったらクランイベント開始です！".format(int(50 - len(member.server.members) % 50)))
     await client.send_message(member,
                                     "```ようこそ！\n{}へ！\nこの鯖はMMOくんとTAOくん専門の鯖です！\n今後ともよろしくお願いします！```".format(member.server.name))
     channel = client.get_channel('337860614846283780')
@@ -738,15 +535,6 @@ async def on_message(message: discord.Message):
                                                   message.author.id,channel.mention))
                     return
 
-    if message.channel.type == ChannelType.private:
-        if not message.author.id == "529149531800076319":
-            if not message.author.id == '304932786286886912':
-                if not message.author.id == '247671415715790849':
-                    await client.send_message(message.channel,"**コマンドはDMでは使うことができません...**")
-                    return
-
-    # ログは勝手に送ってくれるようにする
-    # BOTのProfileを表示自分のメイン垢かドロキンさんの垢しか反応しない
     if message.content.startswith("リスト"):
         async def send(member_data):
             up = discord.Color(random.randint(0,0xFFFFFF))
@@ -1182,13 +970,14 @@ async def on_message(message: discord.Message):
             while li:
                 yield li[:n]
                 li = li[n:]
-        for roles in slice(message.server.role_hierarchy,100):
-            role = "\n".join(f'{i}: {role.mention}' for (i,role) in enumerate(roles, start=1))
+        for roles in slice(message.server.role_hierarchy,50):
+            role = "\n".join(f'{i}: {role.mention}' for (i,role) in enumerate(roles, start=1) if role.mentionable)
             userembed=discord.Embed(
                 title="役職一覧:",
                 description=role,
                 color=discord.Color.light_grey()
             )
+
             userembed.set_thumbnail(
                 url=message.server.icon_url
                 )
@@ -1196,7 +985,7 @@ async def on_message(message: discord.Message):
                 name=message.server.name + "の全役職情報:"
             )
             await client.send_message(message.channel, embed=userembed)
-            await client.send_message(message.channel,"この鯖の役職の合計の数は{}です！".format(str(len(message.server.roles))))
+        await client.send_message(message.channel,"この鯖の役職の合計の数は{}です！".format(str(len(message.server.roles))))
     
     if message.content.startswith("全鯖一覧") and message.content.endswith("全鯖一覧"):
         def slice(li,n):
@@ -1205,33 +994,14 @@ async def on_message(message: discord.Message):
                 li = li[n:]
         for servers in slice(list(client.servers),50):
             embed = discord.Embed(
-                title="全サーバー一覧",
+                title="全鯖一覧",
                 description='\n'.join(f'{i}: {server.name}' for (i,server) in enumerate(servers, start=1)),
                 colour=discord.Color(random.randint(0,0xFFFFFF))
             )
+            embed.set_footer(
+                text="合計:{}鯖がこのBOTを導入しています！".format(len(client.servers))
+            )
             await client.send_message(message.channel,embed=embed)
-            await client.send_message(message.channel,"合計:{}鯖です！".format(len(client.servers)))
-    
-    if message.content.startswith("バグ役職追加") and message.content.endswith("バグ役職追加"):
-        up = discord.Color(random.randint(0,0xFFFFFF))
-        role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
-        member = discord.utils.get(message.server.members,name=message.author.name)
-        if role is None:
-            await client.create_role(name="バグ通知OK!!",server=message.server, color=up,mentionable=True)
-            await client.send_message(message.channel,"この鯖には『バグ通知OK!!』役職がなかったので勝手に作っちゃいました💛\nもう一度コマンドを打ってください！")
-            return
-        if role in member.roles:
-            await client.send_message(message.channel,"あなたは既に役職を持っています！")
-        else:
-            await client.add_roles(message.author,role)
-            await client.send_message(message.channel,"あなたに『バグ通知OK!!』の役職を付与しました。\nこれでバグの時は通知来るよ！！")
-            return
-
-    if message.content.startswith("バグ役職削除") and message.content.endswith("バグ役職削除"):
-        role = discord.utils.get(message.server.roles,name="バグ通知OK!!")
-        await client.delete_role(message.server,role)
-        await client.send_message(message.channel,"削除完了！")
-        return
     
     if message.content.startswith("役職付与") and message.content.endswith("役職付与"):
         if not message.channel.id == "535957520666066954":
@@ -1265,266 +1035,48 @@ async def on_message(message: discord.Message):
             await client.send_message(message.channel,embed=embed)
             return
 
-    if datetime.now().strftime("%H:%M:%S") == datetime.now().strftime("23:00:00"):
-        memberID = "304932786286886912"
-        server = client.get_server('337524390155780107')
-        person = discord.Server.get_member(server,memberID)
-        await client.send_message(person,"時間だよ")
-
     if message.content.startswith(prefix + 'shutdown'):
         if not message.author.id == "304932786286886912":
             await client.send_message(message.channel,"**これは全権限者しか使用できないコマンドです.**")
             return
-        a = await client.send_message(message.channel,"シャットダウンします。少しお待ちください。")
-        await asyncio.sleep(2)
-        b = await client.edit_message(a,"シャットダウンまで残り80%...")
-        await asyncio.sleep(2)
-        c = await client.edit_message(b,"シャットダウンまで残り60%...")
-        await asyncio.sleep(2)
-        d = await client.edit_message(c,"シャットダウンまで残り40%...")
-        await asyncio.sleep(2)
-        e = await client.edit_message(d,"シャットダウンまで残り20%...")
-        await asyncio.sleep(2)
-        f = await client.edit_message(e,"シャットダウンまで残り0%...")
-        await client.delete_message(f)
-        await client.send_message(message.channel,'シャットダウンします！\nお疲れさまでした！')
         await client.logout()
         await client.close()
 
-    if message.content.startswith(prefix + 'embed'):
-        if not message.author.id == '304932786286886912':
-            if not message.author.id == '247671415715790849':
-                await client.send_message(message.channel,
-                                          "{}さん\nこのコマンドは兄者かドロキンさんしか使えないよ！".format(message.author.mention))
-                return
-        user = message.author
-        if not user.nick == None:  # ニックネーム存在確認
-            user_name = user.nick
-        else:
-            user_name = user.name
-        nick = message.server.me
-        if not nick.nick == None:
-            nick_name = nick.nick
-        else:
-            nick_name = nick.name
-        sayd = message.content[6:]
-        embed = discord.Embed(
-            title="アナウンスの内容:",
-            description="発言者:" + user_name + "#" + message.author.discriminator,
-            color=discord.Color.dark_grey(),
-            timestamp=message.timestamp
-        )
-        embed.add_field(
-            name="**内容:**",
-            value="**" + sayd.replace("sex","**").replace("fuck","****") + "**"
-        )
-        embed.set_thumbnail(
-            url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
-        )
-        embed.set_footer(
-            text="発言時刻: "
-        )
-        embed.set_author(
-            name=nick_name,
-            icon_url=client.user.avatar_url
-        )
-        await client.delete_message(message)
-        await client.send_message(message.channel,embed=embed)
-    
     channel = [c for c in message.server.channels if message.channel.name == "mmo-global-chat"]
     if channel:
         if not message.author == client.user:
-            if message.author.bot:
-                return
-            sayd = message.content
-            embedeee = discord.Embed(
-                title="発言者:" + message.author.name + "#" + message.author.discriminator,
-                description=sayd.replace("sex","***").replace("fuck","****"),
-                color=discord.Color.dark_grey(),
-                timestamp=message.timestamp
-            )
-            embedeee.set_thumbnail(
-                url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
-            )
-            embedeee.set_footer(
-                text="発言時刻: "
-            )
-            embedeee.set_author(
-                name=message.server.name,
-                icon_url=message.server.icon_url
-            )
-            await client.delete_message(message)
-            for channel in client.get_all_channels():
-                if channel.name == 'mmo-global-chat':
-                    await client.send_message(channel,embed=embedeee)
-
-            if message.content.startswith("チャンネルトピック") and message.content.endswith("チャンネルトピック"):
+            if not message.author.bot:
+                await client.delete_message(message)
                 embed = discord.Embed(
-                    title="チャンネルトピック！！",
-                    description="",
-                    color=discord.Color(0xFFFFFF)
-                )
-                embed.add_field(
-                    name="このチャンネルの説明！",
-                    value="楽しく会話をしようぜ！\nバグイベントの時は通知します！",
-                    inline=False
-                )
-                embed.add_field(
-                    name="このBOTの招待URL",
-                    value="[**招待URL**](<https://discordapp.com/oauth2/authorize?client_id=529149531800076319&permissions=8&scope=bot>)",
-                    inline=True
-                )
-                embed.add_field(
-                    name="MMO特訓場の招待コード",
-                    value="[**招待URL**](<https://discord.gg/aSETXpN>)",
-                    inline=True
+                    title="発言者:" + message.author.name + "#" + message.author.discriminator,
+                    description=message.content,
+                    color=discord.Color.dark_grey(),
+                    timestamp=message.timestamp
                 )
                 embed.set_thumbnail(
-                    url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(client.user)
+                    url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
                 )
                 embed.set_footer(
-                    text="このBOTをよろしく！！"
+                    text="発言時刻: "
                 )
                 embed.set_author(
-                    name=client.user.name,
-                    icon_url=client.user.avatar_url
+                    name=message.server.name,
+                    icon_url=message.server.icon_url
                 )
-                for channel in client.get_all_channels():
-                    if channel.name == 'mmo-global-chat':
-                        await client.send_message(channel,embed=embed)
-
-            if message.content.startswith("自分の詳細") and message.content.endswith("自分の詳細"):
-                user = message.author
-                userjoindate = str(user.joined_at.strftime("%Y/%m/%d %H:%M:%S"))
-                usercreatedate = str(user.created_at.strftime("%Y/%m/%d %H:%M:%S"))
-                role = "\n".join([r.name for r in user.roles])
-                nickname = str(user.display_name)
-
-                up = discord.Color(random.randint(0,0xFFFFFF))
-
-                userembed = discord.Embed(
-                    title=":pencil:ユーザー名:",
-                    description="**『" + user.name + "』**",
-                    color=up
-                )
-                userembed.set_author(
-                    name=user.name + "#" + user.discriminator + "のユーザー情報:"
-                )
-                userembed.add_field(
-                    name=":earth_asia:ニックネーム:",
-                    value="**" + nickname + "**"
-                )
-                userembed.add_field(
-                    name=":bulb:サーバー参加日:",
-                    value="**" + userjoindate + "**"
-                )
-                userembed.add_field(
-                    name=":bar_chart:アカウント作成日:",
-                    value="**" + usercreatedate + "**"
-                )
-                userembed.add_field(
-                    name=":hash:ユーザーID:",
-                    value="**" + user.id + "**"
-                )
-                userembed.set_thumbnail(
-                    url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(user)
-                )
-                userembed.add_field(
-                    name=":scroll:ユーザーTAG:",
-
-                    value="**#" + user.discriminator + "**"
-                )
-                userembed.add_field(
-                    name=":signal_strength:ユーザーの現在のステータス:",
-                    value="**" + str(user.status) + "**"
-                )
-                userembed.add_field(
-                    name=":diamond_shape_with_a_dot_inside:ユーザーが現在付与されてる役職",
-                    value="**" + role + "**"
-                )
-                for channel in client.get_all_channels():
-                    if channel.name == 'mmo-global-chat':
-                        await client.send_message(channel,embed=userembed)
-
-            if message.content.startswith("この鯖の詳細") and message.content.endswith("この鯖の詳細"):
-                server = message.server
-                region = message.server.region
-                channelss = len(message.server.channels)
-                memberss = len(message.server.members)
-                role = str(len(server.roles))
-                emoji = str(len(server.emojis))
-                owner = server.owner
-                tekitou = server.role_hierarchy[0]
-                online = 0
-                for i in server.members:
-                    if str(i.status) == 'online' or str(i.status) == 'idle' or str(i.status) == 'dnd':
-                        online += 1
-                up = discord.Color(random.randint(0,0xFFFFFF))
-                userembed = discord.Embed(
-                    title=server.name + "の情報:",
-                    color=up
-                )
-                userembed.set_thumbnail(
-                    url=server.icon_url
-                )
-                userembed.add_field(
-                    name="サーバーID:",
-                    value=server.id
-                )
-                userembed.add_field(
-                    name="サーバーオーナ:",
-                    value=owner
-                )
-                userembed.add_field(
-                    name="サーバーリュージョン:",
-                    value=region
-                )
-                userembed.add_field(
-                    name="メンバー数:",
-                    value=memberss
-                )
-                userembed.add_field(
-                    name="チャンネル数:",
-                    value=channelss
-                )
-                userembed.add_field(
-                    name="役職数:",
-                    value=role
-                )
-                userembed.add_field(
-                    name="現在オンラインの数:",
-                    value=online
-                )
-                userembed.add_field(
-                    name="鯖に追加した絵文字の数:",
-                    value=emoji
-                )
-                userembed.add_field(
-                    name="サーバー最上位役職:",
-                    value=tekitou
-                )
-                userembed.set_footer(
-                    text="サーバー作成日: " + server.created_at.__format__(' %Y/%m/%d %H:%M:%S')
-                )
-                for channel in client.get_all_channels():
-                    if channel.name == 'mmo-global-chat':
-                        await client.send_message(channel,embed=userembed)
+                await asyncio.gather(*(client.send_message(c,embed=embed) for c in client.get_all_channels() if
+                                       c.name == 'mmo-global-chat'))
+                return
                     
     if message.content.startswith('役職一覧') and message.content.endswith('役職一覧'):
         role = "\n".join([r.mention for r in message.author.roles if r.mentionable][::-1])
         up = discord.Color(random.randint(0,0xFFFFFF))
         embed = discord.Embed(
-            title="",
-            description="",
+            title="**{}**に付与されてる役職一覧:".format(message.author),
+            description=role,
             color=up
         )
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
-        )
-        embed.add_field(
-            name="**{}**に付与されてる役職一覧:".format(message.author),
-            value=role,
-            inline=False
         )
         await client.send_message(message.channel,embed=embed)
         
@@ -1581,7 +1133,7 @@ async def on_message(message: discord.Message):
                 message.author.mention,channel.mention
             ))
             return
-                # -------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------
     if not message.author.id == '330049154552430593':
         if not message.author.id == '526620171658330112':
             if not message.author.id == '531818623422038026':
@@ -2081,76 +1633,5 @@ async def on_message(message: discord.Message):
                             await client.send_message(channel,embed=embedee)
                             return
 
-            # -------------------------------------------------------------------------------------------------------------------
-            # のんきなMMO&miner&tao&uuuレベル上げ場
-    match = RE_STATUS.match(message.content)
-    if not match:
-        return
-    if message.server.id == "415120414323245057":
-        try:
-            channel = client.get_channel('529139075165192192')
-            user_id = match[1]
-            level = int(match[2])
-            role_name = next((role[1] for role in ROLE_MAP if role[0](level)))
-            role = discord.utils.get(message.server.roles,name=role_name)
-            delete_role_names = [role[1] for role in ROLE_MAP if not role[0](level)]
-            delete_roles = [discord.utils.get(message.server.roles,name=role_name) for role_name in
-                            delete_role_names]
-            for value in sorted(ROLE_LEVELS.values()):
-                if value > level:
-                    next_levels = value
-                    break
-            else:
-                next_levels = '500000'
-                for value in sorted(ROLE_LEVEL.values()):
-                    if level > value:
-                        await client.send_message(message.channel,
-                                                  "```凄い！あなたは今鯖のレベル役職の付与範囲を超えてしまった！\nぜひ運営に役職を追加して貰ってください！\nこの鯖のMMOの最高レベル役職は『{}』です。```".format(
-                                                      role_name))
-                        return
-            if role in discord.utils.get(message.server.members,id=user_id).roles:
-                await client.send_message(message.channel,
-                                          "次のレベル役職を得るためには{}Lvが必要です！".format(int(next_levels - level)))
-                await client.send_message(channel,
-                                          "```・MMO関連 \n\n発言鯖名:『{0}』 \nSTATUSを確認した人:『{1}』 \n現在のレベルは:{2}Lv \nこの人に適切な役職は『{3}』です。\n次の役職まで後{4}Lvです！\n\nログ報告時刻:{5}```".format(
-                                              message.server,
-                                              discord.utils.get(message.server.members,id=user_id),level,
-                                              role_name,int(next_levels - level),
-                                              datetime.now().strftime(" %Y/%m/%d %H:%M:%S")))
-                print("----------------------------------")
-                print(
-                    "MMO関連 \n発言鯖名:『{0}』 \nSTATUSを確認した人:『{1}』 \n現在のレベルは:{2}Lv \nこの人に適切な役職は『{3}』です。\n次の役職まで後{4}Lvです！\nログ報告時刻:{5}".format(
-                        message.server,discord.utils.get(message.server.members,id=user_id),level,role_name,
-                        int(next_levels - level),datetime.now().strftime(" %Y/%m/%d %H:%M:%S")))
-                print("----------------------------------")
-                return
-            else:
-                await client.add_roles(discord.utils.get(message.server.members,id=user_id),role)
-                await client.remove_roles(discord.utils.get(message.server.members,id=user_id),*delete_roles)
-                await client.send_message(message.channel,
-                                          "前の役職を削除しました。\n役職名:『{0}』を付与しました。\n次の役職まで後{1}Lvです！".format(
-                                              discord.utils.get(message.server.roles,name=role_name),
-                                              int(next_levels - level)))
-                await client.send_message(channel,
-                                          "```・MMO関連 \n\n発言鯖名:『{0}』 \nSTATUSを確認した人:『{1}』 \n現在のレベルは:{2}Lv \nこの人に適切な役職は『{3}』です。\n次の役職まで後{4}Lvです！\n\nログ報告時刻:{5}```".format(
-                                              message.server,
-                                              discord.utils.get(message.server.members,id=user_id),level,
-                                              role_name,int(next_levels - level),
-                                              datetime.now().strftime(" %Y/%m/%d %H:%M:%S")))
-                print("---------------------------------")
-                print(
-                    "MMO関連 \n発言鯖名:『{0}』 \nSTATUSを確認した人:『{1}』 \n現在のレベルは:{2}Lv \nこの人に適切な役職は『{3}』です。\n次の役職まで後{4}Lvです！\nログ報告時刻:{5}".format(
-                        message.server,discord.utils.get(message.server.members,id=user_id),level,role_name,
-                        int(next_levels - level),datetime.now().strftime(" %Y/%m/%d %H:%M:%S")))
-                print("----------------------------------")
-        except ArithmeticError:
-            await client.send_message(message.channel,"すいません。ERRORです。")
-        except:
-            await client.send_message(message.channel,"役職が付与されてると思いますが、\nなんか謎のERRORが出ています。\n付与されてなかったらスマナイ；；")
-        finally:
-            return
-
-            # -------------------------------------------------------------------------------------------------------------------
-
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
