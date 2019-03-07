@@ -1641,4 +1641,4 @@ async def on_message(message: discord.Message):
                             return
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN"))
+client.run(os.environ.get("TOKEN")
