@@ -968,6 +968,159 @@ async def on_message(message: discord.Message):
                             )
                             await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                             return
+    
+    if message.content == "自クラン勢力図":
+        role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
+        if role1 in message.author.roles:
+            up = discord.Color(random.randint(0,0xFFFFFF))
+            async def send(member_data):
+                role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
+                role = discord.utils.get(message.server.roles,name="境界線の彼方:総長&副総長")
+                embed = discord.Embed(
+                    title="『境界線の彼方クラン』の勢力図",
+                    description=f"{role.mention}権限持ち:\n今はだれも居ません！\n\n{role1.mention}のメンバー表:\n" + member_data,
+                    color=up
+                )
+                embed.set_footer(
+                    text=f"今現在の境界線の彼方のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                )
+                await client.send_message(message.channel,embed=embed)
+            i = 1
+            member_data = ""
+            role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
+            for member in message.server.members:
+                if role1 in member.roles:
+                    member_data += "{0}人目:『{1}』\n".format(i,member.name)
+                    if i % 100 == 0:
+                        await send(member_data)
+                        # リセットする
+                        member_data = ""
+                    i += 1
+            else:
+                await send(member_data)
+                return
+
+        role1 = discord.utils.get(message.server.roles,name="輝く星の最果て")
+        if role1 in message.author.roles:
+            up = discord.Color(random.randint(0,0xFFFFFF))
+            async def send(member_data):
+                role1 = discord.utils.get(message.server.roles,name="輝く星の最果て")
+                role = discord.utils.get(message.server.roles,name="輝く星の最果て:総長&副総長")
+                embed = discord.Embed(
+                    title="『輝く星の最果てクラン』の勢力図",
+                    description=f"{role.mention}権限持ち:\n総長:<@376728551904247808>さん\n副総長:<@527716276643299329>さん\n\n{role1.mention}のメンバー表:\n" + member_data,
+                    color=up
+                )
+                embed.set_footer(
+                    text=f"今現在の輝く星の最果てのメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                )
+                await client.send_message(message.channel,embed=embed)
+            i = 1
+            member_data = ""
+            role1 = discord.utils.get(message.server.roles,name="輝く星の最果て")
+            for member in message.server.members:
+                if role1 in member.roles:
+                    member_data += "{0}人目:『{1}』\n".format(i,member.name)
+                    if i % 100 == 0:
+                        await send(member_data)
+                        # リセットする
+                        member_data = ""
+                    i += 1
+            else:
+                await send(member_data)
+                return
+
+        role1 = discord.utils.get(message.server.roles,name="大地の根源と終末")
+        if role1 in message.author.roles:
+            up = discord.Color(random.randint(0,0xFFFFFF))
+            async def send(member_data):
+                role = discord.utils.get(message.server.roles,name="大地の根源と終末:総長&副総長")
+                role1 = discord.utils.get(message.server.roles,name="大地の根源と終末")
+                embed = discord.Embed(
+                    title="『大地の根源と終末クラン』の勢力図",
+                    description=f"{role.mention}権限持ち:\n総長:<@460208854362357770>さん\n副総長:<@507161988682743818>さん\n\n{role1.mention}のメンバー表:\n" + member_data,
+                    color=up
+                )
+                embed.set_footer(
+                    text=f"今現在の大地の根源と終末のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                )
+                await client.send_message(message.channel,embed=embed)
+            i = 1
+            member_data = ""
+            role1 = discord.utils.get(message.server.roles,name="大地の根源と終末")
+            for member in message.server.members:
+                if role1 in member.roles:
+                    member_data += "{0}人目:『{1}』\n".format(i,member.name)
+                    if i % 100 == 0:
+                        await send(member_data)
+                        # リセットする
+                        member_data = ""
+                    i += 1
+            else:
+                await send(member_data)
+                return
+
+        role1 = discord.utils.get(message.server.roles,name="休日のとある一日")
+        if role1 in message.author.roles:
+            up = discord.Color(random.randint(0,0xFFFFFF))
+            async def send(member_data):
+                role = discord.utils.get(message.server.roles,name="休日のとある一日:総長&副総長")
+                role1 = discord.utils.get(message.server.roles,name="休日のとある一日")
+                embed = discord.Embed(
+                    title="『休日のとある一日クラン』の勢力図",
+                    description=f"{role.mention}権限持ち:\n今はだれも居ません！\n\n{role1.mention}のメンバー表:\n" + member_data,
+                    color=up
+                )
+                embed.set_footer(
+                    text=f"今現在の休日のとある一日のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                )
+                await client.send_message(message.channel,embed=embed)
+            i = 1
+            member_data = ""
+            role1 = discord.utils.get(message.server.roles,name="休日のとある一日")
+            for member in message.server.members:
+                if role1 in member.roles:
+                    member_data += "{0}人目:『{1}』\n".format(i,member.name)
+                    if i % 100 == 0:
+                        await send(member_data)
+                        # リセットする
+                        member_data = ""
+                    i += 1
+            else:
+                await send(member_data)
+                return
+
+        role1 = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体")
+        if role1 in message.author.roles:
+            up = discord.Color(random.randint(0,0xFFFFFF))
+
+            async def send(member_data):
+                role = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体:総長&副総長")
+                role1 = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体")
+                embed = discord.Embed(
+                    title="『宇宙に広がる星屑の集合体クラン』の勢力図",
+                    description=f"{role.mention}権限持ち:\n今はだれも居ません！\n\n{role1.mention}のメンバー表:\n" + member_data,
+                    color=up
+                )
+                embed.set_footer(
+                    text=f"今現在の宇宙に広がる星屑の集合体のメンバー数は{len([m for m in message.server.members if role1 in m.roles])}名です！"
+                )
+                await client.send_message(message.channel,embed=embed)
+
+            i = 1
+            member_data = ""
+            role1 = discord.utils.get(message.server.roles,name="宇宙に広がる星屑の集合体")
+            for member in message.server.members:
+                if role1 in member.roles:
+                    member_data += "{0}人目:『{1}』\n".format(i,member.name)
+                    if i % 100 == 0:
+                        await send(member_data)
+                        # リセットする
+                        member_data = ""
+                    i += 1
+            else:
+                await send(member_data)
+                return
                                                   
     if message.content == "クラン勢力図":
         role1 = discord.utils.get(message.server.roles,name="境界線の彼方")
