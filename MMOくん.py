@@ -982,11 +982,11 @@ async def on_message(message: discord.Message):
                                           "『{}』のメッセージが検出されました。".format(counter))
             await client.send_message(message.channel,"{0}さん。\n合計で『{1}』のメッセージが検出されました。".format(message.author.mention,counter))
     
-    if message.content == "TAOグローバル":
+    if message.content == "グローバルリスト":
         async def send(server_data):
             up = discord.Color(random.randint(0,0xFFFFFF))
             embed = discord.Embed(
-                title="GLOBALに連結されてる鯖一覧",
+                title="tao-globalチャンネルに接続してるサバリスト:",
                 description=server_data,
                 color=up,
                 timestamp=message.timestamp
@@ -1004,7 +1004,7 @@ async def on_message(message: discord.Message):
                 if i % 100 == 0:
                     await send(server_data)
                     # リセットする
-                    server_data= ""
+                    server_data = ""
                 i += 1
         else:
             await send(server_data)
