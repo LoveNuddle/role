@@ -582,7 +582,7 @@ async def on_message(message: discord.Message):
             return
         await asyncio.sleep(2)
         await client.delete_message(message)
-        if "に入りたい" in message.content:
+        if "に入りたいです。" in message.content:
             role = discord.utils.get(message.server.roles,name="境界線の彼方")
             if role in message.author.roles:
                 a = await client.send_message(message.channel,f"{message.author.mention}さん！\nあなたは既に一つのクランに所属しています！")
@@ -618,16 +618,23 @@ async def on_message(message: discord.Message):
                 roles = [role for role in message.server.roles if
                          role.name in attachable_roles and role.name in message.content]
                 if not roles:
-                    a = await client.send_message(message.channel,f"{message.author.mention}さん。この鯖にはこの役職名の役職は存在しないか付与することが出来ない役職です！")
+                    a = await client.send_message(message.channel,
+                                                  f"{message.author.mention}さん。この鯖にはこの役職名の役職は存在しないか付与することが出来ない役職です！")
                     await asyncio.sleep(10)
                     await client.delete_message(a)
                     return
                 else:
                     await client.add_roles(message.author,*roles)
-                    a = await client.send_message(message.channel,
-                                              f'{message.author.mention} さんは『{",".join([x.name for x in roles])}』クランに参加しました！')
-                    await asyncio.sleep(10)
-                    await client.delete_message(a)
+                    up = discord.Color(random.randint(0,0xFFFFFF))
+                    embed = discord.Embed(
+                        title="クラン参加ログ",
+                        description=f"{roles.mention}情報!!:\n\n{message.author.mention}さんが『{roles}』に参加しました！",
+                        colour=up
+                    )
+                    embed.set_footer(
+                        text=f"今現在の{roles}のメンバー数は{len([m for m in message.server.members if roles in m.roles])}名です！"
+                    )
+                    await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                     return
 
     if message.content.startswith("除外"):
