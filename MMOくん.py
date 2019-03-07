@@ -582,7 +582,7 @@ async def on_message(message: discord.Message):
             return
         await asyncio.sleep(2)
         await client.delete_message(message)
-        if "に入りたいです。" in message.content:
+        if "に入りたいです" in message.content:
             role = discord.utils.get(message.server.roles,name="境界線の彼方")
             if role in message.author.roles:
                 a = await client.send_message(message.channel,f"{message.author.mention}さん！\nあなたは既に一つのクランに所属しています！")
@@ -626,13 +626,23 @@ async def on_message(message: discord.Message):
                 else:
                     await client.add_roles(message.author,*roles)
                     up = discord.Color(random.randint(0,0xFFFFFF))
+                    role = discord.utils.get(message.server.roles,name=message.content[2:-7])
                     embed = discord.Embed(
                         title="クラン参加ログ",
-                        description=f"{roles.mention}情報!!:\n\n{message.author.mention}さんが『{roles}』に参加しました！",
-                        colour=up
+                        description=f"""
+                        {role.mention}情報!!:
+                        {message.author.mention}さんが『{role}』に参加しました！
+
+                        今現在の{role}のメンバー数は{len([m for m in message.server.members if role in m.roles])}名です！
+                        """,
+                        colour=up,
+                        timestamp=message.timestamp
+                    )
+                    embed.set_thumbnail(
+                        url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
                     )
                     embed.set_footer(
-                        text=f"今現在の{roles}のメンバー数は{len([m for m in message.server.members if roles in m.roles])}名です！"
+                        text="加入時刻: "
                     )
                     await client.send_message(client.get_channel("553028767702974464"),embed=embed)
                     return
@@ -1641,4 +1651,4 @@ async def on_message(message: discord.Message):
                             return
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
