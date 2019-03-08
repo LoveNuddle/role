@@ -1137,4 +1137,4 @@ def db_write(server_id,lower,upper,role_id):
         return True
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
