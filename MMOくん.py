@@ -180,7 +180,6 @@ async def change_status():
         await client.change_presence(game=discord.Game(name="&helpしてね！"))
         await asyncio.sleep(30)
 
-
 # -------------------------------------------------------------------------------------------------------------------
 @client.event
 async def on_message(message):
