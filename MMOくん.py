@@ -173,6 +173,9 @@ async def on_member_remove(member):
         url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(member)
     )
     await client.send_message(client.get_channel('338173860719362060'),embed=embed)
+    await client.edit_channel(client.get_channel("537227342104494082"),name="総メンバー数: {}".format(len(member.server.members)))
+    await client.edit_channel(client.get_channel("537227343207333888"),name="ユーザー数: {}".format(len([member for member in member.server.members if not member.bot])))
+    await client.edit_channel(client.get_channel("537227343844868096"),name="ボットの数: {}".format(len([member for member in member.server.members if member.bot])))
 
 
 # -------------------------------------------------------------------------------------------------------------------
