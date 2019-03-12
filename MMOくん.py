@@ -153,6 +153,9 @@ async def on_member_join(member):
     role = discord.utils.get(member.server.roles,name="暇人")
     await client.add_roles(member,role)
     await client.send_message(client.get_channel('338173860719362060'),"{}さんに役職を付与しました。".format(member.mention))
+    await client.edit_channel(client.get_channel("537227342104494082"),name="総メンバー数: {}".format(len(member.server.members)))
+    await client.edit_channel(client.get_channel("537227343207333888"),name="ユーザー数: {}".format(len([member for member in member.server.members if not member.bot])))
+    await client.edit_channel(client.get_channel("537227343844868096"),name="ボットの数: {}".format(len([member for member in member.server.members if member.bot])))
 
 
 # -------------------------------------------------------------------------------------------------------------------
@@ -464,20 +467,17 @@ async def on_message(message):
         await client.send_message(message.channel,embed=embed)
         return
 
-    if message.content == "&get":
-        if message.author.server_permissions.administrator:
-            counter = 0
-            channel_name = client.get_channel("550674420222394378")
-            for i in message.server.channels:
-                async for log in client.logs_from(i,limit=99999999999):
-                    if log.server.id == message.server.id:
-                        counter += 1
-                await client.edit_channel(channel_name,name="Message Count: {}".format(counter))
-            a = await client.send_message(message.channel,
-                                          "{0}さん。\n合計で『{1}』のメッセージが検出されました。".format(message.author.mention,counter))
-            await asyncio.sleep(120)
-            await client.delete_message(a)
-            return
+    if datetime.now().strftime("%H:%M:%S") == datetime.now().strftime("12:00:00") or message.content == "&get":
+        await client.delete_message(message)
+        counter = 0
+        channel_name = client.get_channel("550674420222394378")
+        for i in message.server.channels:
+            async for log in client.logs_from(i,limit=99999999999):
+                if log.server.id == message.server.id:
+                    counter += 1
+            await client.edit_channel(channel_name,name="総メッセージ数: {}".format(counter))
+        return
+    
     # クラン関連
     # -------------------------------------------------------------------------------------------------------------------
     if message.channel.id == "550941424065970176":
