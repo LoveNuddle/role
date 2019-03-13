@@ -24,7 +24,7 @@ except ImportError:
     sys.exit(1)
 # -------------------------------------------------------------------------------------------------------------------
 client = Bot(command_prefix='&',pm_help=True)
-
+message_counter=0
 # -------------------------------------------------------------------------------------------------------------------
 @client.event
 async def on_ready():
@@ -204,7 +204,50 @@ async def on_message(message):
                     )
                     await client.send_message(message.channel,embed=embed)
                     return
+    if message.content.startswith("作品名"):
+        if not message.channel.id =="555311552971014153":
+            await client.send_message(message.channel,f"{message.author.mention}さん\nこのチャンネルでは申請できません。")
+            return
+        if message.author.id == client.user.id:
+            return
+        await client.delete_message(message)
+        icon_name = message.content.split()[1]
+        get = await client.send_message(message.channel,f"作品名:『{icon_name}』を承認しました。\n今から60秒間受付を開始致します。\nこのチャンネルで応募の画像を貼ってください。")
+        def check(message):
+            return message.attachments
+        check_all = await client.wait_for_message(timeout=60,author=message.author,channel=message.channel,check=check)
+        if check_all:
+            global message_counter
+            message_counter += 1
+            up = discord.Color(random.randint(0,0xFFFFFF))
+            embed = discord.Embed(
+                title=f"{message.author.name}さんの作品です。",
+                description=f"作品名:『{icon_name}』",
+                color=up
+            )
+            embed.set_image(
+                url=check_all.attachments[0]['url']
+            )
+            embed.set_author(
+                name=f"作品番号: [{str(message_counter)}]"
+            )
+            reaction = await client.send_message(client.get_channel("555306778473267220"),embed=embed)
+            await client.add_reaction(reaction,'👍')
+            await client.add_reaction(reaction,"👎")
+            await client.delete_message(get)
+            return
+        if check_all is None:
+            await client.send_message(message.channel,"この作品の受け付けはキャンセルされました...\nまた出品よろしくお願いします！")
+            await client.delete_message(get)
+            return
 
+    if message.attachments:
+        if not message.channel.id == "555311552971014153":
+            return
+        await asyncio.sleep(3)
+        await client.delete_message(message)
+        return
+                
     if message.content == "&help":
         up = discord.Color(random.randint(0,0xFFFFFF))
         embed = discord.Embed(
