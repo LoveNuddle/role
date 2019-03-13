@@ -244,7 +244,7 @@ async def on_message(message):
     if message.attachments:
         if not message.channel.id == "555311552971014153":
             return
-        await asyncio.sleep(3)
+        await asyncio.sleep(10)
         await client.delete_message(message)
         return
                 
