@@ -241,13 +241,6 @@ async def on_message(message):
             await client.delete_message(get)
             return
 
-    if message.attachments:
-        if not message.channel.id == "555311552971014153":
-            return
-        await asyncio.sleep(10)
-        await client.delete_message(message)
-        return
-                
     if message.content == "&help":
         up = discord.Color(random.randint(0,0xFFFFFF))
         embed = discord.Embed(
