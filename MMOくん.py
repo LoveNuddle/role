@@ -926,6 +926,31 @@ async def on_message(message):
     if channel:
         if not message.author == client.user:
             if not message.author.bot:
+                if message.attachments:
+                    embed = discord.Embed(
+                        title="発言者:" + message.author.name + "#" + message.author.discriminator,
+                        color=discord.Color.magenta(),
+                        timestamp=message.timestamp
+                    )
+                    embed.set_image(
+                        url=message.attachments[0]['url']
+                    )
+                    embed.set_thumbnail(
+                        url="https://cdn.discordapp.com/avatars/{0.id}/{0.avatar}.png?size=1024".format(message.author)
+                    )
+                    embed.set_author(
+                        name=message.server.name,
+                        icon_url=message.server.icon_url
+                    )
+                    embed.set_footer(
+                        text="発言時刻: "
+                    )
+                    await asyncio.gather(*(client.send_message(c,embed=embed) for c in client.get_all_channels() if
+                                           c.name == 'tao-global'))
+                    await asyncio.sleep(10)
+                    await client.delete_message(message)
+                    return
+                
                 await client.delete_message(message)
                 embed = discord.Embed(
                     title="発言者:" + message.author.name + "#" + message.author.discriminator,
@@ -1185,4 +1210,4 @@ def db_write(server_id,lower,upper,role_id):
 
 
 client.loop.create_task(change_status())
-client.run(os.environ.get("TOKEN")
+client.run(os.environ.get("TOKEN"))
